@@ -24,8 +24,7 @@ export const AuthCard = ({ title, children }) => {
                 height: "100vh",
                 backgroundImage: `linear-gradient(30deg, ${theme.colors.blue[4]} 0%, ${theme.colors.lime[4]} 100%)`,
             })}
-            p="md"
-        >
+            p="md">
             <Paper
                 sx={(theme) => ({
                     maxWidth: theme.breakpoints.sm,
@@ -34,8 +33,7 @@ export const AuthCard = ({ title, children }) => {
                 shadow="xs"
                 radius="xl"
                 p="xl"
-                withBorder
-            >
+                withBorder>
                 <Center>{brand}</Center>
                 <LoadingOverlay
                     visible={false}
@@ -55,8 +53,7 @@ export const AuthCard = ({ title, children }) => {
                     sx={{
                         fontSize: matches ? 60 : 30,
                     }}
-                    mx="xl"
-                >
+                    mx="xl">
                     {getTitle(title)[0]}
                     <Title
                         sx={{
@@ -64,8 +61,7 @@ export const AuthCard = ({ title, children }) => {
                             fontSize: "inherit",
                         }}
                         component="span"
-                        order={1}
-                    >
+                        order={1}>
                         {" "}
                         {getTitle(title)[1]}{" "}
                     </Title>

@@ -1,5 +1,5 @@
-import { AppShell } from "@mantine/core";
 import { Outlet } from "react-router-dom";
+import { AppShell } from "@mantine/core";
 import { BottomBar, Header, Navbar, Sidebar } from "./components";
 
 export const AppWrapper = () => {
@@ -11,8 +11,7 @@ export const AppWrapper = () => {
             header={<Header />}
             navbar={<Navbar />}
             aside={<Sidebar />}
-            footer={<BottomBar />}
-        >
+            footer={<BottomBar />}>
             <Outlet />
         </AppShell>
     );

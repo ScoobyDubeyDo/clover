@@ -1,15 +1,15 @@
+import { BiUserCircle } from "react-icons/bi";
+import { GiLongAntennaeBug } from "react-icons/gi";
+import { HiUserCircle } from "react-icons/hi";
 import {
-    MdOutlineExplore,
+    MdAddBox,
+    MdBookmark,
+    MdBookmarkBorder,
     MdExplore,
     MdOutlineAddBox,
-    MdAddBox,
-    MdBookmarkBorder,
-    MdBookmark,
+    MdOutlineExplore,
 } from "react-icons/md";
-import { RiSearch2Line, RiHomeLine, RiHomeFill } from "react-icons/ri";
-import { BiUserCircle } from "react-icons/bi";
-import { HiUserCircle } from "react-icons/hi";
-import { GiLongAntennaeBug } from "react-icons/gi";
+import { RiHomeFill, RiHomeLine, RiSearch2Line } from "react-icons/ri";
 
 export const useIcons = (iconName = "", size = 35) => {
     /***
@@ -67,8 +67,7 @@ const BrandLogo = () => {
             y="0px"
             width="29.894px"
             height="29.895px"
-            viewBox="0 0 29.894 29.895"
-        >
+            viewBox="0 0 29.894 29.895">
             <defs>
                 <linearGradient id="lgrad" x1="21%" y1="100%" x2="79%" y2="0%">
                     <stop offset="0%" stopColor="#4dabf7" />

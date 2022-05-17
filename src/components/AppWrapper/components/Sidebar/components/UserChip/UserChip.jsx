@@ -1,11 +1,4 @@
-import {
-    Avatar,
-    Button,
-    Group,
-    Stack,
-    Text,
-    UnstyledButton,
-} from "@mantine/core";
+import { Avatar, Button, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { useIcons, useThemeBreakpoint } from "../../../../../../hooks";
 
 export const UserChip = ({ name, username, photoURL }) => {
@@ -20,12 +13,9 @@ export const UserChip = ({ name, username, photoURL }) => {
                 width: "100%",
                 "&:hover": {
                     backgroundColor:
-                        theme.colorScheme === "dark"
-                            ? theme.colors.dark[6]
-                            : theme.colors.gray[2],
+                        theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
                 },
-            })}
-        >
+            })}>
             <Group sx={{ flexWrap: "nowrap" }}>
                 <Avatar color="blue" src={photoURL} radius="xl">
                     {avatar}
@@ -35,16 +25,10 @@ export const UserChip = ({ name, username, photoURL }) => {
                         transform="uppercase"
                         sx={{ wordWrap: "anywhere" }}
                         lineClamp={1}
-                        size="md"
-                    >
+                        size="md">
                         {name}
                     </Text>
-                    <Text
-                        sx={{ wordWrap: "anywhere" }}
-                        size="sm"
-                        lineClamp={1}
-                        color="gray"
-                    >
+                    <Text sx={{ wordWrap: "anywhere" }} size="sm" lineClamp={1} color="gray">
                         {username}
                     </Text>
                 </Stack>

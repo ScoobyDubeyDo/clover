@@ -1,4 +1,4 @@
-import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
+import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 const myTheme = {
@@ -64,10 +64,7 @@ export const ThemeProvider = ({ children }) => {
     useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
     return (
-        <ColorSchemeProvider
-            colorScheme={colorScheme}
-            toggleColorScheme={toggleColorScheme}
-        >
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <MantineProvider
                 theme={{
                     colorScheme,
@@ -75,8 +72,7 @@ export const ThemeProvider = ({ children }) => {
                 }}
                 defaultProps={{ ...defaultProps }}
                 withGlobalStyles
-                withNormalizeCSS
-            >
+                withNormalizeCSS>
                 {children}
             </MantineProvider>
         </ColorSchemeProvider>

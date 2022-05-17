@@ -1,12 +1,6 @@
-import {
-    Header as HeadBar,
-    TextInput,
-    MediaQuery,
-    Center,
-    Text,
-    Group,
-} from "@mantine/core";
+import { Center, Group, Header as HeadBar, MediaQuery, Text, TextInput } from "@mantine/core";
 import { useIcons, useThemeBreakpoint } from "../../../../hooks";
+
 export const Header = () => {
     const getIcon = useIcons();
     const matches = useThemeBreakpoint("xs");
@@ -18,8 +12,7 @@ export const Header = () => {
                 display: "flex",
                 justifyContent: matches ? "space-between" : "center",
                 alignItems: "center",
-            }}
-        >
+            }}>
             <Group sx={{ alignItems: "center" }}>
                 <Center>{getIcon("logo")}</Center>
                 <Text
@@ -29,8 +22,7 @@ export const Header = () => {
                     sx={{
                         fontFamily: "Handlee, cursive",
                         fontSize: 30,
-                    }}
-                >
+                    }}>
                     Clover
                 </Text>
             </Group>

@@ -15,8 +15,7 @@ export const Navbar = () => {
                 }}
                 p="md"
                 hiddenBreakpoint="xs"
-                width={{ xs: 250, lg: 300 }}
-            >
+                width={{ xs: 250, lg: 300 }}>
                 <Nav.Section grow mt="md">
                     <Stack
                         sx={(theme) => ({
@@ -27,8 +26,7 @@ export const Navbar = () => {
                                 width: 200,
                             },
                         })}
-                        spacing="md"
-                    >
+                        spacing="md">
                         <Navlink label="Home" />
                         <Navlink label="explore" />
                         <Navlink label="Saved" />
@@ -45,8 +43,7 @@ export const Navbar = () => {
                             width: 250,
                             marginLeft: "auto",
                         },
-                    })}
-                >
+                    })}>
                     <Navlink
                         sx={{ marginLeft: "auto" }}
                         username="@amnsdfsdfdsfsdfsdfsffdub-ey"

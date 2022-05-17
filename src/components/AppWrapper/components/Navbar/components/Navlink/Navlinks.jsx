@@ -1,5 +1,5 @@
-import { Avatar, Box, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { Link, useLocation } from "react-router-dom";
+import { Avatar, Box, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { useIcons } from "../../../../../../hooks";
 
 export const Navlink = ({ label, username = "" }) => {
@@ -17,12 +17,9 @@ export const Navlink = ({ label, username = "" }) => {
                 width: "100%",
                 "&:hover *": {
                     backgroundColor:
-                        theme.colorScheme === "dark"
-                            ? theme.colors.dark[6]
-                            : theme.colors.gray[2],
+                        theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
                 },
-            })}
-        >
+            })}>
             <UnstyledButton
                 sx={(theme) => ({
                     display: "block",
@@ -30,15 +27,10 @@ export const Navlink = ({ label, username = "" }) => {
                     paddingBlock: theme.spacing.xs,
                     paddingInline: theme.spacing.xl,
                     borderRadius: theme.radius.xl,
-                })}
-            >
+                })}>
                 <Group sx={{ flexWrap: "nowrap" }}>
                     {!!username ? (
-                        <Avatar
-                            size="lg"
-                            src="https://i.pravatar.cc/100"
-                            radius="xl"
-                        >
+                        <Avatar size="lg" src="https://i.pravatar.cc/100" radius="xl">
                             {getIcon("profile")}
                         </Avatar>
                     ) : isActive ? (
@@ -52,8 +44,7 @@ export const Navlink = ({ label, username = "" }) => {
                             sx={{ wordWrap: "anywhere" }}
                             lineClamp={1}
                             size="md"
-                            weight={isActive ? "bold" : "light"}
-                        >
+                            weight={isActive ? "bold" : "light"}>
                             {label}
                         </Text>
                         {!!username && (
@@ -61,8 +52,7 @@ export const Navlink = ({ label, username = "" }) => {
                                 size="sm"
                                 sx={{ wordWrap: "anywhere" }}
                                 lineClamp={1}
-                                color="gray"
-                            >
+                                color="gray">
                                 {username}
                             </Text>
                         )}

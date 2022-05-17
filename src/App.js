@@ -1,14 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { AppWrapper } from "./components/AppWrapper/AppWrapper";
-import {
-    Explore,
-    Home,
-    Profile,
-    Saved,
-    Signin,
-    Signup,
-    SinglePost,
-} from "./pages";
+import { Explore, Home, Profile, Saved, Signin, Signup, SinglePost } from "./pages";
 
 function App() {
     return (

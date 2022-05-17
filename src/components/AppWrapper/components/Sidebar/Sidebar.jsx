@@ -9,10 +9,7 @@ export const Sidebar = () => {
                     <Title m="sm" order={3}>
                         Who to follow
                     </Title>
-                    <ScrollArea
-                        sx={{ height: "calc(100% - 55px)" }}
-                        offsetScrollbars
-                    >
+                    <ScrollArea sx={{ height: "calc(100% - 55px)" }} offsetScrollbars>
                         <UserChip
                             name="aan sdas asds"
                             username="@sadsd asda"
