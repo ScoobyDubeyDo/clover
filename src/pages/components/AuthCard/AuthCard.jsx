@@ -32,8 +32,7 @@ export const AuthCard = ({ title, children }) => {
                 })}
                 shadow="xs"
                 radius="xl"
-                p="xl"
-                withBorder>
+                p="xl">
                 <Center>{brand}</Center>
                 <LoadingOverlay
                     visible={false}

@@ -1,2 +1,2 @@
 export { AuthCard } from "./AuthCard/AuthCard";
-export { PostsWrapper } from "./PostsWrapper/PostsWrapper";
+export { PostCard } from "./PostCard/PostCard";
