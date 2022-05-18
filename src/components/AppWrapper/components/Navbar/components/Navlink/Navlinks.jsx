@@ -30,11 +30,11 @@ export const Navlink = ({ label, username = "" }) => {
                 })}>
                 <Group sx={{ flexWrap: "nowrap" }}>
                     {!!username ? (
-                        <Avatar size="lg" src="https://i.pravatar.cc/100" radius="xl">
+                        <Avatar size="lg" src="https://i.pravatar.cc/100">
                             {getIcon("profile")}
                         </Avatar>
                     ) : isActive ? (
-                        getIcon(`${label}-active`, 28)
+                        getIcon(`${label}-filled`, 28)
                     ) : (
                         getIcon(label, 28)
                     )}

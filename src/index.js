@@ -2,13 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
 import { ThemeProvider } from "./context";
 
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider>
             <BrowserRouter>
-                <App />
+                <ScrollToTop>
+                    <App />
+                </ScrollToTop>
             </BrowserRouter>
         </ThemeProvider>
     </React.StrictMode>,

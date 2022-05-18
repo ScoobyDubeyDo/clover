@@ -4,8 +4,8 @@ import { UserChip } from "./components";
 export const Sidebar = () => {
     return (
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-            <Aside p="md" hiddenBreakpoint="md" width={{ md: 250, lg: 300 }}>
-                <Paper withBorder sx={{ maxHeight: 334.5 }}>
+            <Aside p="md" hiddenBreakpoint="md" width={{ md: 250, lg: 350, xl: 400 }}>
+                <Paper sx={{ maxHeight: 334.5, maxWidth: 300 }}>
                     <Title m="sm" order={3}>
                         Who to follow
                     </Title>

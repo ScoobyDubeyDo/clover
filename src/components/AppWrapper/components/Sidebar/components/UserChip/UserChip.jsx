@@ -16,8 +16,8 @@ export const UserChip = ({ name, username, photoURL }) => {
                         theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
                 },
             })}>
-            <Group sx={{ flexWrap: "nowrap" }}>
-                <Avatar color="blue" src={photoURL} radius="xl">
+            <Group position="apart" sx={(theme) => ({ gap: theme.spacing.lg })}>
+                <Avatar size="md" ml="xs" color="blue" src={photoURL}>
                     {avatar}
                 </Avatar>
                 <Stack sx={{ gap: 0 }}>

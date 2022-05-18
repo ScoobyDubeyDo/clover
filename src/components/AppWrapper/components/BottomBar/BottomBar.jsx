@@ -20,19 +20,19 @@ export const BottomBar = () => {
             })}>
             <Group position="center" spacing="xl" grow sx={{ flexWrap: "nowrap" }}>
                 <ActionIcon component={NavLink} to="/home">
-                    {({ isActive }) => (isActive ? getIcon("home-active") : getIcon("home"))}
+                    {({ isActive }) => (isActive ? getIcon("home-filled") : getIcon("home"))}
                 </ActionIcon>
                 <ActionIcon component={NavLink} to="/explore">
-                    {({ isActive }) => (isActive ? getIcon("explore-active") : getIcon("explore"))}
+                    {({ isActive }) => (isActive ? getIcon("explore-filled") : getIcon("explore"))}
                 </ActionIcon>
                 <Button component={ActionIcon} compact>
                     {getIcon("post")}
                 </Button>
                 <ActionIcon component={NavLink} to="/saved">
-                    {({ isActive }) => (isActive ? getIcon("saved-active") : getIcon("saved"))}
+                    {({ isActive }) => (isActive ? getIcon("saved-filled") : getIcon("saved"))}
                 </ActionIcon>
                 <ActionIcon component={NavLink} to="/profile">
-                    {({ isActive }) => (isActive ? getIcon("profile-active") : getIcon("profile"))}
+                    {({ isActive }) => (isActive ? getIcon("profile-filled") : getIcon("profile"))}
                 </ActionIcon>
             </Group>
         </Footer>

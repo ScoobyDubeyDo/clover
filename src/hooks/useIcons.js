@@ -1,13 +1,20 @@
+import { AiOutlineComment, AiOutlineEdit, AiOutlineLink } from "react-icons/ai";
 import { BiUserCircle } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
 import { GiLongAntennaeBug } from "react-icons/gi";
 import { HiUserCircle } from "react-icons/hi";
+import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 import {
     MdAddBox,
     MdBookmark,
     MdBookmarkBorder,
     MdExplore,
     MdOutlineAddBox,
+    MdOutlineAddPhotoAlternate,
+    MdOutlineDelete,
     MdOutlineExplore,
+    MdOutlinePhotoCameraBack,
+    MdOutlinePhotoCameraFront,
 } from "react-icons/md";
 import { RiHomeFill, RiHomeLine, RiSearch2Line } from "react-icons/ri";
 
@@ -38,15 +45,33 @@ export const useIcons = (iconName = "", size = 35) => {
                 return <RiSearch2Line size={size} />;
             case "logo":
                 return <BrandLogo size={size} />;
-            case "explore-active":
+            case "menu":
+                return <BsThreeDots size={size} />;
+            case "edit":
+                return <AiOutlineEdit size={size} />;
+            case "delete":
+                return <MdOutlineDelete size={size} />;
+            case "link":
+                return <AiOutlineLink size={size} />;
+            case "like":
+                return <IoHeartOutline size={size} />;
+            case "comment":
+                return <AiOutlineComment size={size} />;
+            case "photo-add":
+                return <MdOutlineAddPhotoAlternate size={size} />;
+            case "camera":
+                return <MdOutlinePhotoCameraBack size={size} />;
+            case "like-filled":
+                return <IoHeartSharp size={size} />;
+            case "explore-filled":
                 return <MdExplore size={size} />;
-            case "home-active":
+            case "home-filled":
                 return <RiHomeFill size={size} />;
-            case "post-active":
+            case "post-filled":
                 return <MdAddBox size={size} />;
-            case "profile-active":
+            case "profile-filled":
                 return <HiUserCircle size={size} />;
-            case "saved-active":
+            case "saved-filled":
                 return <MdBookmark size={size} />;
 
             default:

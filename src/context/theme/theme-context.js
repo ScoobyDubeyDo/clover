@@ -36,7 +36,6 @@ const defaultProps = {
         variant: "gradient",
         gradient: { from: "blue", to: "lime", deg: 30 },
         sx: {
-            color: "#ffffff",
             fontFamily: "Handlee, cursive",
         },
     },
@@ -47,6 +46,26 @@ const defaultProps = {
         mt: "sm",
         labelProps: {
             style: { color: "inherit" },
+        },
+    },
+    Paper: { withBorder: true },
+    Avatar: {
+        radius: "50%",
+    },
+    Text: {
+        sx: { width: "fit-content" },
+    },
+
+    Group: {
+        noWrap: true,
+        position: "apart",
+    },
+};
+
+const styles = {
+    Button: {
+        gradient: {
+            color: "#ffffff",
         },
     },
 };
@@ -71,6 +90,7 @@ export const ThemeProvider = ({ children }) => {
                     ...myTheme,
                 }}
                 defaultProps={{ ...defaultProps }}
+                styles={{ ...styles }}
                 withGlobalStyles
                 withNormalizeCSS>
                 {children}
