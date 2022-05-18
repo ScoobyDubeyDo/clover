@@ -49,9 +49,6 @@ export const PostCard = ({ fullName, avatarUrl, userName, imgUrl, postText }) =>
                     <Menu.Item icon={getIcons("link", 20)}>Link</Menu.Item>
                 </Menu>
             </Group>
-            {/* <Text lineClamp={seeMore} sx={{ wordWrap: "anywhere" }}>
-                {postText}
-            </Text> */}
             <Spoiler sx={{ wordWrap: "anywhere" }} maxHeight={50} showLabel="...see more">
                 {postText}
             </Spoiler>
