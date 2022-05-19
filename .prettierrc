@@ -1,0 +1,20 @@
+{
+   
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "bracketSameLine": true,
+    "tabWidth": 4,
+    "useTabs": true,
+    "semi": true,
+    "printWidth": 80,
+    "trailingComma": "all",
+    "importOrder": [
+      "^(^react$|@react|react|^recoil$)",
+      "^@mantine/(.*)$",
+      "<THIRD_PARTY_MODULES>",
+      "^@/(.*)$",
+      "^[./]"
+    ],
+    "importOrderGroupNamespaceSpecifiers": true,
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true}

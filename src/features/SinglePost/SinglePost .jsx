@@ -1,3 +1,3 @@
 export const SinglePost = () => {
-    return <>SinglePost </>;
+	return <>SinglePost </>;
 };
