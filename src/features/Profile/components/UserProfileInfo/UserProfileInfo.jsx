@@ -1,5 +1,9 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
+	ActionIcon,
 	Anchor,
+	AspectRatio,
 	Avatar,
 	Button,
 	Divider,
@@ -11,14 +15,32 @@ import {
 	Title,
 	useMantineColorScheme,
 } from "@mantine/core";
-
-import { useThemeBreakpoint } from "../../../../hooks";
+import { selectProfileData } from "../../../../app/slices";
+import { SettingsModal } from "../../../../components/SettingsModal/SettingsModal";
+import { useIcons, useThemeBreakpoint } from "../../../../hooks";
+import { EditProfile } from "../EditProfile/EditProfile";
 
 export const UserProfileInfo = ({ children }) => {
 	const mdMatches = useThemeBreakpoint("md");
 	const xsMatches = useThemeBreakpoint("xs");
 	const { colorScheme } = useMantineColorScheme();
+	const [editProfileModal, setEditProfileModal] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const isDark = colorScheme === "dark";
+	const settingsIcon = useIcons("settings", 20);
+	const {
+		bannerUrl,
+		avatarUrl,
+		followers,
+		following,
+		posts,
+		bio,
+		website,
+		fullName,
+		username,
+	} = useSelector(selectProfileData);
+
 	return (
 		<>
 			<Image
@@ -27,7 +49,7 @@ export const UserProfileInfo = ({ children }) => {
 				mt="-1rem"
 				height={mdMatches ? 300 : 200}
 				fit="cover"
-				src="https://picsum.photos/1200/700"
+				src={bannerUrl}
 				alt="user cover"
 			/>
 			<Stack sx={{ gap: "0.5rem" }}>
@@ -36,7 +58,6 @@ export const UserProfileInfo = ({ children }) => {
 					sx={{
 						position: "relative",
 						height: "4rem",
-						backgroundColor: "n",
 					}}>
 					<Paper
 						p={2}
@@ -47,14 +68,33 @@ export const UserProfileInfo = ({ children }) => {
 							width: xsMatches ? "25%" : 100,
 							maxWidth: 200,
 						}}>
-						<Avatar
-							src="https://i.pravatar.cc/165"
-							size="100%"
-							alt="user profile"
-						/>
+						<AspectRatio ratio={1 / 1}>
+							<Avatar
+								src={avatarUrl}
+								size="100%"
+								alt="user profile"
+							/>
+						</AspectRatio>
 					</Paper>
+					{!xsMatches && (
+						<SettingsModal
+							setOpened={setIsModalOpen}
+							opened={isModalOpen}
+							target={
+								<ActionIcon
+									onClick={() => setIsModalOpen((o) => !o)}
+									size="lg"
+									radius="xl"
+									variant="outline">
+									{settingsIcon}
+								</ActionIcon>
+							}
+						/>
+					)}
+
 					<Button
-						ml="auto"
+						ml={xsMatches ? "auto" : 0}
+						onClick={() => setEditProfileModal(true)}
 						size="sm"
 						color={isDark ? "gray" : "dark"}
 						variant="outline">
@@ -73,21 +113,20 @@ export const UserProfileInfo = ({ children }) => {
 						sx={{
 							wordWrap: "anywhere",
 						}}>
-						Asdd asdssdasds
+						{fullName}
 					</Title>
 					<Text color="dimmed" lineClamp={1}>
-						@sdsdas-asds
+						{username}
 					</Text>
 				</Stack>
-				<Text>
-					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-					Impedit quod labore, eum quas laudantium irum.
-				</Text>
-				<Anchor>twitter.com/ScoobyDubeyDo</Anchor>
+				<Text>{bio}</Text>
+				<Anchor href={website} target="_blank">
+					{website}
+				</Anchor>
 				<Group position="left">
 					<Text>
 						<Text component="span" weight="bold">
-							12
+							{posts.length}
 						</Text>
 						&nbsp; Cloves&nbsp;
 					</Text>
@@ -99,7 +138,7 @@ export const UserProfileInfo = ({ children }) => {
 							},
 						}}>
 						<Text component="span" weight="bold">
-							128
+							{following.length}
 						</Text>
 						&nbsp; Following
 					</Text>
@@ -111,7 +150,7 @@ export const UserProfileInfo = ({ children }) => {
 							},
 						}}>
 						<Text component="span" weight="bold">
-							73
+							{followers.length}
 						</Text>
 						&nbsp; Followers
 					</Text>
@@ -119,6 +158,10 @@ export const UserProfileInfo = ({ children }) => {
 				<Divider mt="md" mb="lg" />
 			</Stack>
 			{children}
+			<EditProfile
+				opened={editProfileModal}
+				setOpened={setEditProfileModal}
+			/>
 		</>
 	);
 };

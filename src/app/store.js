@@ -1,13 +1,12 @@
-/*
+import { configureStore } from "@reduxjs/toolkit";
+import { authenticationReducer, profileReducer } from "./slices";
 
-users
-post
-auth
+// import postReducer from "../pages/Home/postSlice";
 
-
-
-
-
-
-
-**/
+export const store = configureStore({
+	reducer: {
+		authentication: authenticationReducer,
+		profile: profileReducer,
+		// post: postReducer,
+	},
+});

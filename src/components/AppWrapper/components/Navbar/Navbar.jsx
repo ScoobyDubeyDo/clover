@@ -1,11 +1,13 @@
+import { useSelector } from "react-redux";
 import { Button, MediaQuery, Navbar as Nav, Stack } from "@mantine/core";
-
-import { useThemeBreakpoint } from "../../../../hooks";
+import { selectProfileData } from "../../../../app/slices";
 import { useIcons } from "../../../../hooks/useIcons";
 import { Navlink } from "./components";
 
 export const Navbar = () => {
 	const postIcon = useIcons("post", 20);
+	const { username, fullName } = useSelector(selectProfileData);
+
 	return (
 		<MediaQuery smallerThan="xs" styles={{ display: "none" }}>
 			<Nav
@@ -31,6 +33,7 @@ export const Navbar = () => {
 						<Navlink label="Home" />
 						<Navlink label="explore" />
 						<Navlink label="Saved" />
+						<Navlink label="Profile" />
 						<Button size="md" leftIcon={postIcon} fullWidth>
 							Clove it
 						</Button>
@@ -45,8 +48,8 @@ export const Navbar = () => {
 					}}>
 					<Navlink
 						sx={{ marginLeft: "auto" }}
-						username="@amnsdfsdfdsfsdfsdfsffdub-ey"
-						label="Amasdfsdfsdfdey"
+						username={username}
+						label={fullName}
 					/>
 				</Nav.Section>
 			</Nav>

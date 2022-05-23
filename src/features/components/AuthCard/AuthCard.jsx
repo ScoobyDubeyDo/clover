@@ -1,5 +1,6 @@
+import { useSelector } from "react-redux";
 import { Center, LoadingOverlay, Paper, Text, Title } from "@mantine/core";
-
+import { selectProfileLoading } from "../../../app/slices";
 import { useIcons, useThemeBreakpoint } from "../../../hooks";
 
 const getTitle = (title) => {
@@ -18,6 +19,7 @@ const getTitle = (title) => {
 export const AuthCard = ({ title, children }) => {
 	const brand = useIcons("logo");
 	const matches = useThemeBreakpoint("xs");
+	const isLoading = useSelector(selectProfileLoading);
 	return (
 		<Center
 			sx={(theme) => ({
@@ -36,7 +38,7 @@ export const AuthCard = ({ title, children }) => {
 				p="xl">
 				<Center>{brand}</Center>
 				<LoadingOverlay
-					visible={false}
+					visible={isLoading}
 					radius="xl"
 					overlayOpacity={0.8}
 					loaderProps={{
@@ -53,7 +55,7 @@ export const AuthCard = ({ title, children }) => {
 					sx={{
 						fontSize: matches ? 60 : 30,
 					}}
-					mx="xl">
+					mx="auto">
 					{getTitle(title)[0]}
 					<Title
 						sx={{
