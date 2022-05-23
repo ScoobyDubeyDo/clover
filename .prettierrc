@@ -1,5 +1,4 @@
 {
-   
     "bracketSpacing": true,
     "arrowParens": "always",
     "bracketSameLine": true,
@@ -7,7 +6,6 @@
     "useTabs": true,
     "semi": true,
     "printWidth": 80,
-    "trailingComma": "all",
     "importOrder": [
       "^(^react$|@react|react|^recoil$)",
       "^@mantine/(.*)$",
@@ -16,5 +14,4 @@
       "^[./]"
     ],
     "importOrderGroupNamespaceSpecifiers": true,
-    "importOrderSeparation": true,
     "importOrderSortSpecifiers": true}

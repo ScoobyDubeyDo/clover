@@ -1,5 +1,4 @@
 import { Stack } from "@mantine/core";
-
 import { PostCard } from "../components";
 import { UserProfileInfo } from "./components";
 
@@ -7,8 +6,9 @@ export const Profile = () => {
 	return (
 		<UserProfileInfo>
 			<Stack>
-				{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_) => (
+				{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
 					<PostCard
+						key={i}
 						avatarUrl="https://i.pravatar.cc/150"
 						userName="dsfsdsd-sdfd"
 						fullName="aman sadsa asdas"

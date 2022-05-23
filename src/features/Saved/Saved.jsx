@@ -1,12 +1,12 @@
 import { Stack } from "@mantine/core";
-
 import { PostCard } from "../components";
 
 export const Saved = () => {
 	return (
 		<Stack>
-			{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_) => (
+			{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
 				<PostCard
+					key={i}
 					avatarUrl="https://i.pravatar.cc/110"
 					userName="dsfsdsd-sdfd"
 					fullName="aman sadsa asdas"

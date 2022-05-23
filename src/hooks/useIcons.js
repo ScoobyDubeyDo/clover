@@ -3,20 +3,29 @@ import { BiUserCircle } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { GiLongAntennaeBug } from "react-icons/gi";
 import { HiUserCircle } from "react-icons/hi";
-import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
+import {
+	IoHeartOutline,
+	IoHeartSharp,
+	IoSettingsOutline,
+	IoSunnySharp,
+} from "react-icons/io5";
 import {
 	MdAddBox,
 	MdBookmark,
 	MdBookmarkBorder,
 	MdExplore,
 	MdOutlineAddBox,
-	MdOutlineAddPhotoAlternate,
 	MdOutlineDelete,
 	MdOutlineExplore,
 	MdOutlinePhotoCameraBack,
 	MdOutlinePhotoCameraFront,
 } from "react-icons/md";
-import { RiHomeFill, RiHomeLine, RiSearch2Line } from "react-icons/ri";
+import {
+	RiHomeFill,
+	RiHomeLine,
+	RiMoonClearFill,
+	RiSearch2Line,
+} from "react-icons/ri";
 
 export const useIcons = (iconName = "", size = 35) => {
 	/***
@@ -57,10 +66,16 @@ export const useIcons = (iconName = "", size = 35) => {
 				return <IoHeartOutline size={size} />;
 			case "comment":
 				return <AiOutlineComment size={size} />;
-			case "photo-add":
-				return <MdOutlineAddPhotoAlternate size={size} />;
-			case "camera":
+			case "dark":
+				return <IoSunnySharp size={size} />;
+			case "light":
+				return <RiMoonClearFill size={size} />;
+			case "settings":
+				return <IoSettingsOutline size={size} />;
+			case "banner-camera":
 				return <MdOutlinePhotoCameraBack size={size} />;
+			case "avatar-camera":
+				return <MdOutlinePhotoCameraFront size={size} />;
 			case "like-filled":
 				return <IoHeartSharp size={size} />;
 			case "explore-filled":

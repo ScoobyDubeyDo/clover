@@ -3,5 +3,5 @@ export { Home } from "./Home/Home";
 export { Profile } from "./Profile/Profile";
 export { SinglePost } from "./SinglePost/SinglePost ";
 export { Saved } from "./Saved/Saved";
-export { Signin } from "./Signin/Signin";
-export { Signup } from "./Signup/Signup";
+export { Signin } from "./authentication/Signin/Signin";
+export { Signup } from "./authentication/Signup/Signup";

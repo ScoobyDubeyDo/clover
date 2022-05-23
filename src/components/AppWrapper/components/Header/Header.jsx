@@ -6,7 +6,6 @@ import {
 	Text,
 	TextInput,
 } from "@mantine/core";
-
 import { useIcons, useThemeBreakpoint } from "../../../../hooks";
 
 export const Header = () => {

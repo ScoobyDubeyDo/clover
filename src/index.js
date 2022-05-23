@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-
 import App from "./App";
+import { store } from "./app/store";
 import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop";
 import { ThemeProvider } from "./context";
 
@@ -10,9 +11,11 @@ ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider>
 			<BrowserRouter>
-				<ScrollToTop>
-					<App />
-				</ScrollToTop>
+				<Provider store={store}>
+					<ScrollToTop>
+						<App />
+					</ScrollToTop>
+				</Provider>
 			</BrowserRouter>
 		</ThemeProvider>
 	</React.StrictMode>,
