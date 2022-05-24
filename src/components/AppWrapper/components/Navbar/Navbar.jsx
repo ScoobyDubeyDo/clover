@@ -6,7 +6,7 @@ import { Navlink } from "./components";
 
 export const Navbar = () => {
 	const postIcon = useIcons("post", 20);
-	const { username, fullName } = useSelector(selectProfileData);
+	const { username, fullName, uid } = useSelector(selectProfileData);
 
 	return (
 		<MediaQuery smallerThan="xs" styles={{ display: "none" }}>
@@ -33,7 +33,7 @@ export const Navbar = () => {
 						<Navlink label="Home" />
 						<Navlink label="explore" />
 						<Navlink label="Saved" />
-						<Navlink label="Profile" />
+						<Navlink label="Profile" to={`profile/${uid}`} />
 						<Button size="md" leftIcon={postIcon} fullWidth>
 							Clove it
 						</Button>

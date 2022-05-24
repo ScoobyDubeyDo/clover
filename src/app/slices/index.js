@@ -13,3 +13,14 @@ export {
 	setProfileLoading,
 	getCurrentUserDetails,
 } from "../../features/Profile/profileSlice";
+
+export {
+	default as usersReducer,
+	getAllUsers,
+	selectAllUsers,
+	getSingleUser,
+	selectSingleUserData,
+	selectSingleUserError,
+	followUser,
+	unFollowUser,
+} from "../../features/Home/usersSlice";

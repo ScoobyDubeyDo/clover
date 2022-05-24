@@ -9,8 +9,8 @@ import {
 	Paper,
 } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { selectProfileData } from "../../../../../../app/slices";
-import { useIcons, useThemeBreakpoint } from "../../../../../../hooks";
+import { selectProfileData } from "../../../../../../../../app/slices";
+import { useIcons, useThemeBreakpoint } from "../../../../../../../../hooks";
 
 export const AvatarInput = ({ handleInput }) => {
 	const { hovered, ref } = useHover();

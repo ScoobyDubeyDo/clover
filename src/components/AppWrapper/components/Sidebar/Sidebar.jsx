@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import { Aside, MediaQuery, Paper, ScrollArea, Title } from "@mantine/core";
-
+import { selectAllUsers, selectProfileData } from "../../../../app/slices";
 import { UserChip } from "./components";
 
 export const Sidebar = () => {
+	const allUsers = useSelector(selectAllUsers);
+	const { uid: userId } = useSelector(selectProfileData);
 	return (
 		<MediaQuery smallerThan="md" styles={{ display: "none" }}>
 			<Aside
@@ -16,36 +19,27 @@ export const Sidebar = () => {
 					<ScrollArea
 						sx={{ height: "calc(100% - 55px)" }}
 						offsetScrollbars>
-						<UserChip
-							name="aan sdas asds"
-							username="@sadsd asda"
-							photoURL="https://i.pravatar.cc/100"
-						/>
-						<UserChip
-							name="aan sdas asds"
-							username="@sdfsswsssssssssssssssssss"
-							photoURL="https://i.pravatar.cc/100"
-						/>
-						<UserChip
-							name="aan sdas asds"
-							username="@sadsd asda"
-							photoURL="https://i.pravatar.cc/120"
-						/>
-						<UserChip
-							name="aan sdas asds"
-							username="@sadsd asda"
-							photoURL="https://i.pravatar.cc/100"
-						/>
-						<UserChip
-							name="aan sdas asds"
-							username="@sadsd asda"
-							photoURL="https://i.pravatar.cc/100"
-						/>
-						<UserChip
-							name="aan sdas asds"
-							username="@sadsd asda"
-							photoURL="https://i.pravatar.cc/120"
-						/>
+						{allUsers.map(
+							({
+								uid,
+								fullName,
+								avatarUrl,
+								username,
+								followers = [],
+							}) => {
+								if (!followers.includes(userId)) {
+									return (
+										<UserChip
+											key={uid}
+											uid={uid}
+											name={fullName}
+											username={username}
+											photoURL={avatarUrl}
+										/>
+									);
+								}
+							}
+						)}
 					</ScrollArea>
 				</Paper>
 			</Aside>

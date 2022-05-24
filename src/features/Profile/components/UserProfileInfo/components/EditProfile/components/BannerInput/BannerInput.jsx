@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Box, Image, Input, LoadingOverlay } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { selectProfileData } from "../../../../../../app/slices";
-import { useIcons, useThemeBreakpoint } from "../../../../../../hooks";
+import { selectProfileData } from "../../../../../../../../app/slices";
+import { useIcons, useThemeBreakpoint } from "../../../../../../../../hooks";
 
 export const BannerInput = ({ handleInput }) => {
 	const { hovered, ref } = useHover();

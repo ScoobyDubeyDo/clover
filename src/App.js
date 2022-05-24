@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { getCurrentUserDetails, setToken } from "./app/slices";
+import { getAllUsers, getCurrentUserDetails, setToken } from "./app/slices";
 import { PrivateRoute } from "./components";
 import { AppWrapper } from "./components/AppWrapper/AppWrapper";
 import {
@@ -22,6 +22,7 @@ function App() {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			dispatch(setToken(user?.accessToken));
 			dispatch(getCurrentUserDetails(user?.uid));
+			dispatch(getAllUsers(user?.uid));
 		});
 		return () => {
 			unsubscribe();
@@ -39,10 +40,11 @@ function App() {
 					<Route path="/home" element={<Home />} />
 					<Route path="/explore" element={<Explore />} />
 					<Route path="/saved" element={<Saved />} />
-					<Route path="/profile" element={<Profile />} />
+					<Route path="/profile/:userId" element={<Profile />} />
 					<Route path="/singlepost" element={<SinglePost />} />
 				</Route>
 			</Route>
+			<Route path="*" element={<>asasass</>} />
 		</Routes>
 	);
 }
