@@ -59,7 +59,7 @@ export const UserDetailsButton = ({
 							size="sm"
 							lineClamp={1}
 							color="gray">
-							{username}
+							{`@${username}`}
 						</Text>
 					</Stack>
 				</Group>

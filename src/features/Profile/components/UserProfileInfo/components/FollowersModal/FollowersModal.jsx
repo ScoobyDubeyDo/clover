@@ -1,14 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-	Avatar,
-	Button,
-	Group,
-	Modal,
-	Stack,
-	Text,
-	UnstyledButton,
-} from "@mantine/core";
+import { Modal } from "@mantine/core";
 import {
 	followUser,
 	selectAllUsers,
@@ -16,12 +7,9 @@ import {
 	setProfileData,
 	unFollowUser,
 } from "../../../../../../app/slices";
-import { useIcons } from "../../../../../../hooks";
 import { UserDetailsButton } from "../UserDetailsButton/UserDetailsButton";
 
 export const FollowersModal = ({ opened, setOpened, followersList }) => {
-	const avatar = useIcons("profile");
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const allUsers = useSelector(selectAllUsers);
 	const currentUser = useSelector(selectProfileData);
@@ -67,6 +55,7 @@ export const FollowersModal = ({ opened, setOpened, followersList }) => {
 
 	return (
 		<Modal
+			overflow="inside"
 			size="lg"
 			padding={20}
 			opened={opened}
@@ -74,7 +63,7 @@ export const FollowersModal = ({ opened, setOpened, followersList }) => {
 			radius="md"
 			transition="pop"
 			centered
-			title="Following"
+			title="Followers"
 			onClose={() => {
 				setOpened(false);
 			}}>

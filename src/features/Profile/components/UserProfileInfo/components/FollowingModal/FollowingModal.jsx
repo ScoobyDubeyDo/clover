@@ -55,6 +55,7 @@ export const FollowingModal = ({ opened, setOpened, followingList }) => {
 
 	return (
 		<Modal
+			overflow="inside"
 			size="lg"
 			padding={20}
 			opened={opened}

@@ -208,10 +208,15 @@ export const UserProfileInfo = ({ children }) => {
 						{data.fullName}
 					</Title>
 					<Text color="dimmed" lineClamp={1}>
-						{data.username}
+						{`@${data.username}`}
 					</Text>
 				</Stack>
-				<Text>{data.bio}</Text>
+				<Text
+					sx={{
+						whiteSpace: "pre-wrap",
+					}}>
+					{data.bio}
+				</Text>
 				<Anchor href={data.website} target="_blank">
 					{data.website}
 				</Anchor>

@@ -54,25 +54,27 @@ export const UserChip = ({ uid, name, username, photoURL }) => {
 				},
 			})}>
 			<Group position="apart" sx={(theme) => ({ gap: theme.spacing.lg })}>
-				<Avatar size="md" ml="xs" color="blue" src={photoURL}>
-					{avatar}
-				</Avatar>
-				<Stack sx={{ gap: 0 }}>
-					<Text
-						transform="uppercase"
-						sx={{ wordWrap: "anywhere" }}
-						lineClamp={1}
-						size="md">
-						{name}
-					</Text>
-					<Text
-						sx={{ wordWrap: "anywhere" }}
-						size="sm"
-						lineClamp={1}
-						color="gray">
-						{username}
-					</Text>
-				</Stack>
+				<Group>
+					<Avatar size="md" ml="xs" color="blue" src={photoURL}>
+						{avatar}
+					</Avatar>
+					<Stack sx={{ gap: 0 }}>
+						<Text
+							transform="uppercase"
+							sx={{ wordWrap: "anywhere" }}
+							lineClamp={1}
+							size="md">
+							{name}
+						</Text>
+						<Text
+							sx={{ wordWrap: "anywhere" }}
+							size="sm"
+							lineClamp={1}
+							color="gray">
+							{`@${username}`}
+						</Text>
+					</Stack>
+				</Group>
 				{matches && (
 					<Button onClick={followUserHandler} size="sm" compact>
 						Follow

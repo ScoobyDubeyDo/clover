@@ -101,7 +101,6 @@ export const EditProfile = ({ opened, setOpened }) => {
 			}}>
 			<LoadingOverlay
 				visible={isLoading}
-				// visible={true}
 				zIndex={403}
 				radius="md"
 				overlayOpacity={0.8}

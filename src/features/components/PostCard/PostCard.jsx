@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import {
 	ActionIcon,
 	Avatar,
@@ -11,7 +10,6 @@ import {
 	Stack,
 	Text,
 } from "@mantine/core";
-
 import { useIcons } from "../../../hooks";
 
 export const PostCard = ({
@@ -55,7 +53,7 @@ export const PostCard = ({
 							size="sm"
 							lineClamp={1}
 							color="gray">
-							{userName}
+							{`@${userName}`}
 						</Text>
 						<Text
 							sx={{ wordWrap: "anywhere" }}

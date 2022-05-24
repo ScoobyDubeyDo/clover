@@ -61,7 +61,7 @@ export const Navlink = ({ label, username = "", to = "" }) => {
 									sx={{ wordWrap: "anywhere" }}
 									lineClamp={1}
 									color="gray">
-									{username}
+									{`@${username}`}
 								</Text>
 							)}
 						</Stack>
