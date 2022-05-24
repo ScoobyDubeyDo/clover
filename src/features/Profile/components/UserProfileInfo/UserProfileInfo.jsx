@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
 	ActionIcon,
 	Anchor,
@@ -15,31 +16,102 @@ import {
 	Title,
 	useMantineColorScheme,
 } from "@mantine/core";
-import { selectProfileData } from "../../../../app/slices";
+import {
+	followUser,
+	getSingleUser,
+	selectProfileData,
+	selectSingleUserData,
+	setProfileData,
+	unFollowUser,
+} from "../../../../app/slices";
 import { SettingsModal } from "../../../../components/SettingsModal/SettingsModal";
 import { useIcons, useThemeBreakpoint } from "../../../../hooks";
-import { EditProfile } from "../EditProfile/EditProfile";
+import { EditProfile, FollowersModal, FollowingModal } from "./components";
+
+const dataBuilder = (isCurrentUser, currentUser, singleUser) => {
+	const temp2 = {};
+	[
+		"bannerUrl",
+		"avatarUrl",
+		"followers",
+		"following",
+		"posts",
+		"bio",
+		"website",
+		"fullName",
+		"username",
+	].forEach((ele) => {
+		isCurrentUser
+			? (temp2[ele] = currentUser[ele])
+			: (temp2[ele] = singleUser[ele]);
+	});
+	return temp2;
+};
 
 export const UserProfileInfo = ({ children }) => {
 	const mdMatches = useThemeBreakpoint("md");
 	const xsMatches = useThemeBreakpoint("xs");
 	const { colorScheme } = useMantineColorScheme();
 	const [editProfileModal, setEditProfileModal] = useState(false);
+	const [followingModal, setFollowingModal] = useState(false);
+	const [followersModal, setFollowersModal] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const isDark = colorScheme === "dark";
 	const settingsIcon = useIcons("settings", 20);
-	const {
-		bannerUrl,
-		avatarUrl,
-		followers,
-		following,
-		posts,
-		bio,
-		website,
-		fullName,
-		username,
-	} = useSelector(selectProfileData);
+	const singleUser = useSelector(selectSingleUserData);
+	const currentUser = useSelector(selectProfileData);
+	const dispatch = useDispatch();
+	const { userId } = useParams();
+	const { uid } = currentUser;
+	const isCurrentUser = userId === uid;
+	const isDark = colorScheme === "dark";
+	const [isFollowing, setIsFollowing] = useState(
+		singleUser.followers.includes(currentUser?.uid)
+	);
+
+	useEffect(() => {
+		if (!isCurrentUser) {
+			dispatch(getSingleUser(userId));
+			setIsFollowing(
+				singleUser.followers.includes(currentUser?.uid) &&
+					currentUser.following.includes(singleUser?.uid)
+			);
+		}
+	}, [dispatch, userId]);
+
+	const data = dataBuilder(isCurrentUser, currentUser, singleUser);
+
+	const followUserHandler = () => {
+		dispatch(
+			followUser({
+				currentUserID: currentUser?.uid,
+				followedUserID: singleUser?.uid,
+			})
+		);
+		dispatch(
+			setProfileData({
+				following: [...currentUser.following, singleUser?.uid],
+			})
+		);
+		setIsFollowing(true);
+	};
+	const unFollowUserHandler = () => {
+		dispatch(
+			unFollowUser({
+				currentUserID: currentUser?.uid,
+				followedUserID: singleUser?.uid,
+			})
+		);
+		dispatch(
+			setProfileData({
+				following: [
+					...currentUser.following.filter(
+						(ele) => ele !== singleUser?.uid
+					),
+				],
+			})
+		);
+		setIsFollowing(false);
+	};
 
 	return (
 		<>
@@ -49,7 +121,7 @@ export const UserProfileInfo = ({ children }) => {
 				mt="-1rem"
 				height={mdMatches ? 300 : 200}
 				fit="cover"
-				src={bannerUrl}
+				src={data.bannerUrl}
 				alt="user cover"
 			/>
 			<Stack sx={{ gap: "0.5rem" }}>
@@ -70,36 +142,56 @@ export const UserProfileInfo = ({ children }) => {
 						}}>
 						<AspectRatio ratio={1 / 1}>
 							<Avatar
-								src={avatarUrl}
+								src={data.avatarUrl}
 								size="100%"
 								alt="user profile"
 							/>
 						</AspectRatio>
 					</Paper>
-					{!xsMatches && (
-						<SettingsModal
-							setOpened={setIsModalOpen}
-							opened={isModalOpen}
-							target={
-								<ActionIcon
-									onClick={() => setIsModalOpen((o) => !o)}
-									size="lg"
-									radius="xl"
-									variant="outline">
-									{settingsIcon}
-								</ActionIcon>
+					{isCurrentUser ? (
+						<>
+							<>
+								{!xsMatches && (
+									<SettingsModal
+										setOpened={setIsModalOpen}
+										opened={isModalOpen}
+										target={
+											<ActionIcon
+												onClick={() =>
+													setIsModalOpen((o) => !o)
+												}
+												size="lg"
+												radius="xl"
+												variant="outline">
+												{settingsIcon}
+											</ActionIcon>
+										}
+									/>
+								)}
+							</>
+							<Button
+								ml={xsMatches ? "auto" : 0}
+								onClick={() => setEditProfileModal(true)}
+								size="sm"
+								color={isDark ? "gray" : "dark"}
+								variant="outline">
+								Edit profile
+							</Button>{" "}
+						</>
+					) : (
+						<Button
+							ml="auto"
+							onClick={
+								isFollowing
+									? unFollowUserHandler
+									: followUserHandler
 							}
-						/>
+							size="sm"
+							color={isDark ? "gray" : "dark"}
+							variant={isFollowing ? "outline" : "light"}>
+							{isFollowing ? "Unfollow" : "Follow"}
+						</Button>
 					)}
-
-					<Button
-						ml={xsMatches ? "auto" : 0}
-						onClick={() => setEditProfileModal(true)}
-						size="sm"
-						color={isDark ? "gray" : "dark"}
-						variant="outline">
-						Edit profile
-					</Button>
 				</Group>
 				<Stack
 					sx={{
@@ -113,24 +205,25 @@ export const UserProfileInfo = ({ children }) => {
 						sx={{
 							wordWrap: "anywhere",
 						}}>
-						{fullName}
+						{data.fullName}
 					</Title>
 					<Text color="dimmed" lineClamp={1}>
-						{username}
+						{data.username}
 					</Text>
 				</Stack>
-				<Text>{bio}</Text>
-				<Anchor href={website} target="_blank">
-					{website}
+				<Text>{data.bio}</Text>
+				<Anchor href={data.website} target="_blank">
+					{data.website}
 				</Anchor>
 				<Group position="left">
 					<Text>
 						<Text component="span" weight="bold">
-							{posts.length}
+							{data.posts.length}
 						</Text>
 						&nbsp; Cloves&nbsp;
 					</Text>
 					<Text
+						onClick={() => setFollowingModal(true)}
 						sx={{
 							"&:hover , &:hover *": {
 								textDecoration: "underline",
@@ -138,11 +231,12 @@ export const UserProfileInfo = ({ children }) => {
 							},
 						}}>
 						<Text component="span" weight="bold">
-							{following.length}
+							{data.following.length}
 						</Text>
 						&nbsp; Following
 					</Text>
 					<Text
+						onClick={() => setFollowersModal(true)}
 						sx={{
 							"&:hover , &:hover *": {
 								textDecoration: "underline",
@@ -150,7 +244,7 @@ export const UserProfileInfo = ({ children }) => {
 							},
 						}}>
 						<Text component="span" weight="bold">
-							{followers.length}
+							{data.followers.length}
 						</Text>
 						&nbsp; Followers
 					</Text>
@@ -161,6 +255,16 @@ export const UserProfileInfo = ({ children }) => {
 			<EditProfile
 				opened={editProfileModal}
 				setOpened={setEditProfileModal}
+			/>
+			<FollowingModal
+				opened={followingModal}
+				setOpened={setFollowingModal}
+				followingList={data.following}
+			/>
+			<FollowersModal
+				opened={followersModal}
+				setOpened={setFollowersModal}
+				followersList={data.followers}
 			/>
 		</>
 	);

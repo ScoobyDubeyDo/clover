@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
 	Avatar,
 	Button,
@@ -6,14 +8,39 @@ import {
 	Text,
 	UnstyledButton,
 } from "@mantine/core";
-
+import {
+	followUser,
+	selectProfileData,
+	setProfileData,
+} from "../../../../../../app/slices";
 import { useIcons, useThemeBreakpoint } from "../../../../../../hooks";
 
-export const UserChip = ({ name, username, photoURL }) => {
+export const UserChip = ({ uid, name, username, photoURL }) => {
 	const avatar = useIcons("profile");
 	const matches = useThemeBreakpoint("lg");
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const currentUser = useSelector(selectProfileData);
+
+	const followUserHandler = (e) => {
+		e.stopPropagation();
+		dispatch(
+			followUser({
+				currentUserID: currentUser?.uid,
+				followedUserID: uid,
+			})
+		);
+		dispatch(
+			setProfileData({
+				following: [...currentUser.following, uid],
+			})
+		);
+	};
+
 	return (
 		<UnstyledButton
+			onClick={() => navigate(`profile/${uid}`)}
 			component="div"
 			sx={(theme) => ({
 				display: "block",
@@ -47,7 +74,7 @@ export const UserChip = ({ name, username, photoURL }) => {
 					</Text>
 				</Stack>
 				{matches && (
-					<Button size="sm" compact>
+					<Button onClick={followUserHandler} size="sm" compact>
 						Follow
 					</Button>
 				)}

@@ -1,15 +1,29 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Center, Modal, TextInput, Textarea } from "@mantine/core";
+import {
+	Box,
+	Button,
+	Center,
+	LoadingOverlay,
+	Modal,
+	TextInput,
+	Textarea,
+} from "@mantine/core";
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { selectProfileData, setProfileData } from "../../../../app/slices";
-import { db, storage } from "../../../../firebase";
+import {
+	selectProfileData,
+	setProfileData,
+} from "../../../../../../app/slices";
+import { db, storage } from "../../../../../../firebase";
 import { AvatarInput, BannerInput } from "./components";
 
 export const EditProfile = ({ opened, setOpened }) => {
 	const { bannerUrl, avatarUrl, bio, website, fullName, uid } =
 		useSelector(selectProfileData);
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [inputValues, setInputValues] = useState({
 		fullName,
 		bio,
@@ -29,6 +43,7 @@ export const EditProfile = ({ opened, setOpened }) => {
 	};
 
 	const handleDataSubmit = async () => {
+		setIsLoading(true);
 		let avatarDownloadURL = inputValues.avatarUrl;
 		let bannerDownloadURL = inputValues.bannerUrl;
 		if (typeof avatarDownloadURL === "object") {
@@ -61,6 +76,7 @@ export const EditProfile = ({ opened, setOpened }) => {
 			})
 		);
 		setOpened(false);
+		setIsLoading(false);
 	};
 
 	return (
@@ -83,6 +99,17 @@ export const EditProfile = ({ opened, setOpened }) => {
 					avatarUrl,
 				});
 			}}>
+			<LoadingOverlay
+				visible={isLoading}
+				// visible={true}
+				zIndex={403}
+				radius="md"
+				overlayOpacity={0.8}
+				loaderProps={{
+					size: "xl",
+					color: "cyan",
+				}}
+			/>
 			<BannerInput handleInput={handleInput} />
 			<AvatarInput handleInput={handleInput} />
 			<Box>

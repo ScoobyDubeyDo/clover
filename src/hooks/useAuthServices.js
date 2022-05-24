@@ -35,6 +35,7 @@ export const useAuthServices = () => {
 				followers: [],
 				following: [],
 				bookmarked: [],
+				website: "",
 			};
 			const userRef = doc(
 				collection(db, "users"),
