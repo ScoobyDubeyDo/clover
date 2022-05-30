@@ -1,130 +1,164 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionIcon, Card, Group, Image, Spoiler, Text } from "@mantine/core";
 import {
-	ActionIcon,
-	Avatar,
-	Card,
-	Group,
-	Image,
-	Menu,
-	Spoiler,
-	Stack,
-	Text,
-} from "@mantine/core";
+	addPostToSaved,
+	likePost,
+	removePostFromSaved,
+	selectProfileData,
+	setProfileData,
+	unLikePost,
+} from "../../../app/slices";
+import { EditPostModal } from "../../../components";
 import { useIcons } from "../../../hooks";
+import { AddNewComment, AllCommentsBox, PostCardHeader } from "./components";
 
 export const PostCard = ({
-	fullName,
-	avatarUrl,
-	userName,
-	imgUrl,
-	postText,
+	post: {
+		photoUrl,
+		postText,
+		uploadDate,
+		userId,
+		likes,
+		comments,
+		uid: postId,
+	},
 }) => {
 	const getIcons = useIcons();
+	const currentUser = useSelector(selectProfileData);
+	const dispatch = useDispatch();
+	const [editModalOpen, setEditModalOpen] = useState(false);
+
+	const [isLiked, setIsLiked] = useState(
+		likes?.some((userId) => userId === currentUser.uid)
+	);
+	const [isSaved, setIsSaved] = useState(
+		currentUser.bookmarked?.some((id) => id === postId)
+	);
+
+	const likeHandler = () => {
+		dispatch(
+			likePost({
+				postId,
+				currentUserId: currentUser.uid,
+			})
+		);
+		setIsLiked(true);
+	};
+	const unLikeHandler = () => {
+		dispatch(
+			unLikePost({
+				postId,
+				currentUserId: currentUser.uid,
+			})
+		);
+		setIsLiked(false);
+	};
+	const saveHandler = () => {
+		dispatch(
+			addPostToSaved({
+				postId,
+				currentUserId: currentUser.uid,
+			})
+		);
+		dispatch(
+			setProfileData({
+				bookmarked: [...currentUser.bookmarked, postId],
+			})
+		);
+		setIsSaved(true);
+	};
+	const unSaveHandler = () => {
+		dispatch(
+			removePostFromSaved({
+				postId,
+				currentUserId: currentUser.uid,
+			})
+		);
+
+		setIsSaved(false);
+		dispatch(
+			setProfileData({
+				bookmarked: [...currentUser.bookmarked].filter(
+					(ele) => ele !== postId
+				),
+			})
+		);
+	};
+
 	return (
-		<Card
-			sx={(theme) => ({
-				backgroundColor:
-					theme.colorScheme === "dark"
-						? theme.colors.dark[8]
-						: theme.colors.gray[0],
-			})}>
-			<Group
-				position="apart"
+		<>
+			<Card
 				sx={(theme) => ({
-					gap: theme.spacing.lg,
+					backgroundColor:
+						theme.colorScheme === "dark"
+							? theme.colors.dark[8]
+							: theme.colors.gray[0],
 				})}>
-				<Group>
-					<Avatar
-						size="lg"
-						alt="profile of user"
-						color="blue"
-						src={avatarUrl}>
-						{getIcons("profile", 28)}
-					</Avatar>
-					<Stack sx={{ gap: 0 }}>
-						<Text
-							transform="uppercase"
-							sx={{ wordWrap: "anywhere" }}
-							lineClamp={1}>
-							{fullName}
-						</Text>
-						<Text
-							sx={{ wordWrap: "anywhere" }}
-							size="sm"
-							lineClamp={1}
-							color="gray">
-							{`@${userName}`}
-						</Text>
-						<Text
-							sx={{ wordWrap: "anywhere" }}
-							size="xs"
-							lineClamp={1}
-							color="gray">
-							{"3d"}
-						</Text>
-					</Stack>
-				</Group>
-				<Menu
-					control={
-						<ActionIcon size="lg" variant="transparent">
-							{getIcons("menu", 20)}
+				<PostCardHeader
+					postId={postId}
+					uploadDate={uploadDate}
+					userId={userId}
+					setEditModalOpen={setEditModalOpen}
+				/>
+				<Spoiler
+					sx={{ wordWrap: "anywhere" }}
+					maxHeight={50}
+					my="sm"
+					showLabel="...see more">
+					{postText}
+				</Spoiler>
+				{!!photoUrl && (
+					<Card.Section my="sm">
+						<Image
+							withPlaceholder
+							imageProps={{
+								style: { maxHeight: 400, objectFit: "contain" },
+							}}
+							alt="asdasdsd"
+							src={photoUrl}
+						/>
+					</Card.Section>
+				)}
+				<Group
+					position="apart"
+					sx={(theme) => ({
+						gap: theme.spacing.lg,
+					})}>
+					<Group sx={{ flexWrap: "nowrap" }}>
+						<ActionIcon
+							onClick={() => {
+								isLiked ? unLikeHandler() : likeHandler();
+							}}
+							variant="transparent">
+							{isLiked
+								? getIcons("like-filled", 28)
+								: getIcons("like", 28)}
 						</ActionIcon>
-					}
-					closeOnScroll
-					zIndex="99"
-					withArrow
-					withinPortal
-					position="left"
-					gutter={10}
-					transition="rotate-left">
-					<Menu.Item icon={getIcons("edit", 20)}>Edit</Menu.Item>
-					<Menu.Item icon={getIcons("delete", 20)}>Delete</Menu.Item>
-					<Menu.Item icon={getIcons("link", 20)}>Link</Menu.Item>
-				</Menu>
-			</Group>
-			<Spoiler
-				sx={{ wordWrap: "anywhere" }}
-				maxHeight={50}
-				showLabel="...see more">
-				{postText}
-			</Spoiler>
-			{!!imgUrl && (
-				<Card.Section my="sm">
-					<Image
-						withPlaceholder
-						imageProps={{
-							style: { maxHeight: 400, objectFit: "contain" },
+						<ActionIcon variant="transparent">
+							{getIcons("comment", 28)}
+						</ActionIcon>
+					</Group>
+					<ActionIcon
+						onClick={() => {
+							isSaved ? unSaveHandler() : saveHandler();
 						}}
-						alt="asdasdsd"
-						src={imgUrl}
-					/>
-				</Card.Section>
-			)}
-			<Group
-				position="apart"
-				sx={(theme) => ({
-					gap: theme.spacing.lg,
-				})}>
-				<Group sx={{ flexWrap: "nowrap" }}>
-					<ActionIcon variant="transparent">
-						{getIcons("like", 28)}
-					</ActionIcon>
-					<ActionIcon variant="transparent">
-						{getIcons("comment", 28)}
+						variant="transparent">
+						{isSaved
+							? getIcons("saved-filled", 28)
+							: getIcons("saved", 28)}
 					</ActionIcon>
 				</Group>
-				<ActionIcon variant="transparent">
-					{getIcons("saved", 28)}
-				</ActionIcon>
-			</Group>
-			<Text>231 Likes</Text>
-			<Text
-				weight="bold"
-				mt="xs"
-				variant="link"
-				sx={{ cursor: "pointer" }}>
-				View all 190 comments
-			</Text>
-		</Card>
+				<Text>{likes.length} Likes</Text>
+				<AllCommentsBox comments={comments} />
+				<AddNewComment postId={postId} />
+			</Card>
+			<EditPostModal
+				opened={editModalOpen}
+				postId={postId}
+				setOpened={setEditModalOpen}
+				text={postText}
+			/>
+		</>
 	);
 };
