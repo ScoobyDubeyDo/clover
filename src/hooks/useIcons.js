@@ -1,8 +1,10 @@
 import { AiOutlineComment, AiOutlineEdit, AiOutlineLink } from "react-icons/ai";
 import { BiUserCircle } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
+import { FiSend } from "react-icons/fi";
 import { GiLongAntennaeBug } from "react-icons/gi";
 import { HiUserCircle } from "react-icons/hi";
+import { IoIosClose } from "react-icons/io";
 import {
 	IoHeartOutline,
 	IoHeartSharp,
@@ -15,6 +17,8 @@ import {
 	MdBookmarkBorder,
 	MdExplore,
 	MdOutlineAddBox,
+	MdOutlineAddPhotoAlternate,
+	MdOutlineAddReaction,
 	MdOutlineDelete,
 	MdOutlineExplore,
 	MdOutlinePhotoCameraBack,
@@ -25,6 +29,7 @@ import {
 	RiHomeLine,
 	RiMoonClearFill,
 	RiSearch2Line,
+	RiUserUnfollowLine,
 } from "react-icons/ri";
 
 export const useIcons = (iconName = "", size = 35) => {
@@ -72,6 +77,16 @@ export const useIcons = (iconName = "", size = 35) => {
 				return <RiMoonClearFill size={size} />;
 			case "settings":
 				return <IoSettingsOutline size={size} />;
+			case "add-image":
+				return <MdOutlineAddPhotoAlternate size={size} />;
+			case "add-emoji":
+				return <MdOutlineAddReaction size={size} />;
+			case "close":
+				return <IoIosClose size={size} />;
+			case "unfollow":
+				return <RiUserUnfollowLine size={size} />;
+			case "send":
+				return <FiSend size={size} />;
 			case "banner-camera":
 				return <MdOutlinePhotoCameraBack size={size} />;
 			case "avatar-camera":

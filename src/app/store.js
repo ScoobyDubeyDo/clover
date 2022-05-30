@@ -1,13 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authenticationReducer, profileReducer, usersReducer } from "./slices";
-
-// import postReducer from "../pages/Home/postSlice";
+import {
+	authenticationReducer,
+	postsReducer,
+	profileReducer,
+	usersReducer,
+} from "./slices";
 
 export const store = configureStore({
 	reducer: {
 		authentication: authenticationReducer,
 		profile: profileReducer,
 		users: usersReducer,
-		// post: postReducer,
+		posts: postsReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}),
 });

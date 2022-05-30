@@ -1,8 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { getAllUsers, getCurrentUserDetails, setToken } from "./app/slices";
+import {
+	getAllUsers,
+	getAllposts,
+	getCurrentUserDetails,
+	selectProfileData,
+	setToken,
+} from "./app/slices";
 import { PrivateRoute } from "./components";
 import { AppWrapper } from "./components/AppWrapper/AppWrapper";
 import {
@@ -17,6 +23,7 @@ import {
 import { auth } from "./firebase";
 
 function App() {
+	const currentUser = useSelector(selectProfileData);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -27,7 +34,17 @@ function App() {
 		return () => {
 			unsubscribe();
 		};
-	}, []);
+	}, [dispatch]);
+
+	useEffect(() => {
+		dispatch(
+			getAllposts({
+				userId: currentUser?.uid,
+				following: currentUser?.following,
+			})
+		);
+	}, [currentUser, dispatch]);
+
 	return (
 		<Routes>
 			<Route element={<PrivateRoute switchPath={false} />}>

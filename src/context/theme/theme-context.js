@@ -1,4 +1,4 @@
-import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import { ColorSchemeProvider, Global, MantineProvider } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 const myTheme = {
@@ -51,6 +51,7 @@ const defaultProps = {
 	Paper: { withBorder: true },
 	Avatar: {
 		radius: "50%",
+		color: "blue",
 	},
 	Text: {
 		sx: { width: "fit-content" },
@@ -83,20 +84,40 @@ export const ThemeProvider = ({ children }) => {
 	useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
 	return (
-		<ColorSchemeProvider
-			colorScheme={colorScheme}
-			toggleColorScheme={toggleColorScheme}>
-			<MantineProvider
-				theme={{
-					colorScheme,
-					...myTheme,
+		<>
+			<Global
+				styles={{
+					"*:not(textarea):not(input)": {
+						userSelect: "none",
+					},
+					"*,*::after ,*::before": {
+						scrollbarWidth: "thin",
+					},
+					"::-webkit-scrollbar": {
+						width: "0.5rem",
+					},
+
+					"::-webkit-scrollbar-thumb": {
+						background: "gray",
+						borderRadius: "25px",
+					},
 				}}
-				defaultProps={{ ...defaultProps }}
-				styles={{ ...styles }}
-				withGlobalStyles
-				withNormalizeCSS>
-				{children}
-			</MantineProvider>
-		</ColorSchemeProvider>
+			/>
+			<ColorSchemeProvider
+				colorScheme={colorScheme}
+				toggleColorScheme={toggleColorScheme}>
+				<MantineProvider
+					theme={{
+						colorScheme,
+						...myTheme,
+					}}
+					defaultProps={{ ...defaultProps }}
+					styles={{ ...styles }}
+					withGlobalStyles
+					withNormalizeCSS>
+					{children}
+				</MantineProvider>
+			</ColorSchemeProvider>
+		</>
 	);
 };
