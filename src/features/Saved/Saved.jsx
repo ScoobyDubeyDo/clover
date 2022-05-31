@@ -1,19 +1,35 @@
-import { Stack } from "@mantine/core";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Center, Stack, Title } from "@mantine/core";
+import {
+	getSavedPosts,
+	selectProfileData,
+	selectSavedPosts,
+} from "../../app/slices";
 import { PostCard } from "../components";
 
 export const Saved = () => {
+	const posts = useSelector(selectSavedPosts);
+	const { bookmarked } = useSelector(selectProfileData);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getSavedPosts(bookmarked));
+	}, [bookmarked, dispatch]);
+
 	return (
 		<Stack>
-			{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-				<PostCard
-					key={i}
-					avatarUrl="https://i.pravatar.cc/110"
-					userName="dsfsdsd-sdfd"
-					fullName="aman sadsa asdas"
-					imgUrl="https://picsum.photos/500/200"
-					postText="kjfds sflsdkjfsdklf sdjflskdfjsd sd fjdsklfjds sdfjdsfldjsf sdf jdslkjfsd sdlfkjskf sdflksjfsldf sdlfjsdfjds sdfjsdfksjdf sdkfjskldjsfd sdfjslkjds sdflkkjsdflkjds sdkjsdfkljsdf sdflkjsfsdjfj sdfjsdfdsdf jdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-				/>
-			))}
+			{posts?.length > 0 ? (
+				posts.map((post) => <PostCard key={post.uid} post={post} />)
+			) : (
+				<Center
+					sx={{
+						height: "40vh",
+						border: "1px dashed gray",
+					}}>
+					<Title order={2}>Nothing to show</Title>
+				</Center>
+			)}
 		</Stack>
 	);
 };
