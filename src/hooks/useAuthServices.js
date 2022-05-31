@@ -60,12 +60,7 @@ export const useAuthServices = () => {
 	const handleSignIn = async ({ email, password }) => {
 		try {
 			dispatch(setProfileLoading(true));
-			const userCredential = await signInWithEmailAndPassword(
-				auth,
-				email,
-				password
-			);
-			console.log("set here");
+			signInWithEmailAndPassword(auth, email, password);
 		} catch (error) {
 			const errorMessage = error.message;
 			console.log({ errorMessage });

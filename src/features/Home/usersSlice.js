@@ -32,8 +32,6 @@ const initialState = {
 };
 
 export const getAllUsers = createAsyncThunk("users/getAllUsers", async (id) => {
-	arrayUnion;
-
 	const querySnapshot = await getDocs(collection(db, "users"));
 	const temp = [];
 	querySnapshot.forEach((doc) => {
@@ -47,8 +45,12 @@ export const getAllUsers = createAsyncThunk("users/getAllUsers", async (id) => {
 export const getSingleUser = createAsyncThunk(
 	"users/getSingleUser",
 	async (id) => {
-		const userDoc = await getDoc(doc(collection(db, "users"), id));
-		return userDoc.data();
+		try {
+			const userDoc = await getDoc(doc(collection(db, "users"), id));
+			return userDoc.data();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 );
 
@@ -85,7 +87,11 @@ export const unFollowUser = createAsyncThunk(
 const usersSlice = createSlice({
 	name: "users",
 	initialState,
-	reducers: {},
+	reducers: {
+		removeSingleUserData: (state) => {
+			state.singleUser.data = initialState.singleUser.data;
+		},
+	},
 	extraReducers: {
 		[getAllUsers.fulfilled]: (state, action) => {
 			state.allUsers = action.payload;
@@ -127,7 +133,7 @@ const usersSlice = createSlice({
 	},
 });
 
-// export const {} = usersSlice.actions;
+export const { removeSingleUserData } = usersSlice.actions;
 export const selectAllUsers = (state) => state.users.allUsers;
 export const selectSingleUserData = (state) => state.users.singleUser.data;
 export const selectSingleUserError = (state) => state.users.singleUser.error;

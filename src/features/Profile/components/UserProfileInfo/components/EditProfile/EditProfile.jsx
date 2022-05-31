@@ -131,6 +131,7 @@ export const EditProfile = ({ opened, setOpened }) => {
 					onChange={(e) => handleInput({ bio: e.target.value })}
 				/>
 				<TextInput
+					styles={{ input: { color: "#29b6f6" } }}
 					value={inputValues.website}
 					autoFocus={false}
 					placeholder="Enter link here"

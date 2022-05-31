@@ -38,6 +38,7 @@ export const Sidebar = () => {
 										/>
 									);
 								}
+								return "";
 							}
 						)}
 					</ScrollArea>
