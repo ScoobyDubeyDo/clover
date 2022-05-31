@@ -97,6 +97,7 @@ export const FollowingModal = ({ opened, setOpened, followingList }) => {
 							/>
 						);
 					}
+					return undefined;
 				}
 			)}
 		</Modal>

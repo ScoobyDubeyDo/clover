@@ -19,6 +19,7 @@ import {
 import {
 	followUser,
 	getSingleUser,
+	removeSingleUserData,
 	selectProfileData,
 	selectSingleUserData,
 	setProfileData,
@@ -67,18 +68,16 @@ export const UserProfileInfo = ({ children }) => {
 	const [isFollowing, setIsFollowing] = useState(
 		singleUser.followers.includes(currentUser?.uid)
 	);
+	const data = dataBuilder(isCurrentUser, currentUser, singleUser);
 
 	useEffect(() => {
 		if (!isCurrentUser) {
 			dispatch(getSingleUser(userId));
-			setIsFollowing(
-				singleUser.followers.includes(currentUser?.uid) &&
-					currentUser.following.includes(singleUser?.uid)
-			);
 		}
-	}, [dispatch, userId]);
-
-	const data = dataBuilder(isCurrentUser, currentUser, singleUser);
+		return () => {
+			dispatch(removeSingleUserData());
+		};
+	}, [dispatch, userId, isCurrentUser]);
 
 	const followUserHandler = () => {
 		dispatch(

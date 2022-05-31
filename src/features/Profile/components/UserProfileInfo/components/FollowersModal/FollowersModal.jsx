@@ -97,6 +97,7 @@ export const FollowersModal = ({ opened, setOpened, followersList }) => {
 							/>
 						);
 					}
+					return undefined;
 				}
 			)}
 		</Modal>

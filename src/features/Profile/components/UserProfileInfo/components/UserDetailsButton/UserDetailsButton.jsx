@@ -43,7 +43,7 @@ export const UserDetailsButton = ({
 			})}>
 			<Group position="apart" sx={(theme) => ({ gap: theme.spacing.lg })}>
 				<Group>
-					<Avatar size="lg" ml="xs" color="blue" src={avatarUrl}>
+					<Avatar size="lg" ml="xs" src={avatarUrl}>
 						{avatar}
 					</Avatar>
 					<Stack sx={{ gap: 0 }}>
