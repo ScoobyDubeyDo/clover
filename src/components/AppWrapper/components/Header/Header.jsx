@@ -14,7 +14,7 @@ export const Header = () => {
 	return (
 		<HeadBar
 			height={70}
-			p="md"
+			px="xl"
 			sx={{
 				display: "flex",
 				justifyContent: matches ? "space-between" : "center",

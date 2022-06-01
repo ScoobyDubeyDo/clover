@@ -32,7 +32,7 @@ export const UserCard = ({ uid, name, username, photoURL }) => {
 
 	return (
 		<UnstyledButton
-			onClick={() => navigate(`profile/${uid}`)}
+			onClick={() => navigate(`/profile/${uid}`)}
 			component="div"
 			sx={(theme) => ({
 				display: "block",

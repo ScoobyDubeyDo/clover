@@ -9,7 +9,7 @@ import { SettingsModal } from "../../../../../SettingsModal/SettingsModal";
 export const Navlink = ({ label, username = "", to = "" }) => {
 	const { pathname } = useLocation();
 	const getIcon = useIcons();
-	const isActive = pathname.slice(1) === label.toLowerCase();
+	const isActive = pathname.split("/")[1] === label.toLowerCase();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const { avatarUrl } = useSelector(selectProfileData);

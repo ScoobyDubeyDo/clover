@@ -22,7 +22,6 @@ const initialState = {
 	userPosts: [],
 	otherPosts: [],
 	otherUserPosts: [],
-	// singlePost: {},
 	explorePosts: {
 		posts: [],
 		lastVisible: null,

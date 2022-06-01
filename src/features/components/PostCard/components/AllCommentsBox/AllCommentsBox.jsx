@@ -4,9 +4,12 @@ import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../../../../firebase";
 import { SingleComment } from "./components";
 
-export const AllCommentsBox = ({ comments }) => {
+export const AllCommentsBox = ({
+	comments,
+	commentsLength,
+	setCommentsLength,
+}) => {
 	const [commentsDetails, setCommentsDetails] = useState([]);
-	const [commentsLength, setCommentsLength] = useState(2);
 	useEffect(() => {
 		if (comments.length > 0) {
 			(async () => {

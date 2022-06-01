@@ -85,18 +85,19 @@ export const SingleComment = ({
 				<Stack sx={{ width: "100%", gap: 0 }}>
 					<Group
 						sx={{
+							justifyContent: "flex-start",
 							width: "100%",
 						}}>
 						<Text
 							transform="uppercase"
-							sx={{ wordWrap: "anywhere" }}
+							sx={{ wordWrap: "anywhere", width: "max-content" }}
 							lineClamp={1}
 							color="dimmed"
 							size="md">
 							{fullName}
 						</Text>
 						<Text
-							sx={{ wordWrap: "anywhere" }}
+							sx={{ wordWrap: "anywhere", width: "max-content" }}
 							lineClamp={1}
 							color="gray"
 							size="xs">
@@ -164,7 +165,9 @@ export const SingleComment = ({
 							rightSectionWidth={46}
 						/>
 					) : (
-						<Text size="sm">{commentText}</Text>
+						<Text size="sm" sx={{ wordBreak: "break-all" }}>
+							{commentText}
+						</Text>
 					)}
 				</Stack>
 			</Group>
