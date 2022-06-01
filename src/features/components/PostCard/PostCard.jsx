@@ -28,7 +28,6 @@ export const PostCard = ({
 	const currentUser = useSelector(selectProfileData);
 	const dispatch = useDispatch();
 	const [editModalOpen, setEditModalOpen] = useState(false);
-
 	const [isLiked, setIsLiked] = useState(
 		likes?.some((userId) => userId === currentUser.uid)
 	);
@@ -100,6 +99,7 @@ export const PostCard = ({
 					uploadDate={uploadDate}
 					userId={userId}
 					setEditModalOpen={setEditModalOpen}
+					hasPhoto={!!photoUrl}
 				/>
 				<Spoiler
 					sx={{ wordWrap: "anywhere" }}

@@ -37,7 +37,8 @@ export const UserCard = ({ uid, name, username, photoURL }) => {
 			sx={(theme) => ({
 				display: "block",
 				padding: theme.spacing.xs,
-				width: 150,
+				minWidth: 150,
+				maxWidth: 150,
 				height: "100%",
 				backgroundColor:
 					theme.colorScheme === "dark"

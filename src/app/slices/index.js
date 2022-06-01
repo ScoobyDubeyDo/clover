@@ -18,6 +18,7 @@ export {
 	selectExplorePosts,
 	addComment,
 	deleteComment,
+	editComment,
 } from "../../features/Home/postsSlice";
 export {
 	followUser,

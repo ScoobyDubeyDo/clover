@@ -1,36 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useIntersectionObserver = (elementRef, { threshold = 0 }) => {
+export const useIntersectionObserver = (elementRef, loadMore) => {
 	const [isOnScreen, setIsOnScreen] = useState(false);
 
-	const ref = useRef(
-		new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					setIsOnScreen(entry.isIntersecting);
-				}
-			},
-			{ threshold }
-		)
-	);
-
 	useEffect(() => {
-		const node = elementRef?.current; // DOM Ref
-		console.log({ node });
+		if (loadMore) {
+			const node = elementRef?.current; // DOM Ref
+			const observer = new IntersectionObserver(
+				([entry]) => {
+					if (entry.isIntersecting) {
+						setIsOnScreen(entry.isIntersecting);
+					}
+				},
+				{ threshold: 1 }
+			);
 
-		const observer = ref.current;
-
-		if (node) {
-			observer.observe(node);
-		}
-
-		return () => {
-			if (node) {
-				setIsOnScreen(false);
-				observer.disconnect();
+			if (!!node) {
+				observer.observe(node);
 			}
-		};
-	}, [elementRef, threshold]);
+
+			return () => {
+				if (node) {
+					setIsOnScreen(false);
+					observer.disconnect();
+				}
+			};
+		}
+	}, [loadMore, elementRef]);
 
 	return isOnScreen;
 };

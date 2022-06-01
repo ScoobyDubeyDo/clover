@@ -30,6 +30,7 @@ export const PostCardHeader = ({
 	userId,
 	postId,
 	setEditModalOpen,
+	hasPhoto,
 }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export const PostCardHeader = ({
 			deletePost({
 				postId,
 				userId,
+				hasPhoto,
 			})
 		);
 	};

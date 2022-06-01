@@ -24,6 +24,9 @@ export const AddNewComment = ({ postId }) => {
 
 	return (
 		<Textarea
+			onKeyUp={(e) => {
+				if (e.key === "Enter") addCommentHandler();
+			}}
 			autoFocus={false}
 			onChange={(e) => setNewComment(e.target.value)}
 			value={newComment}

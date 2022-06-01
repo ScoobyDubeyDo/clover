@@ -1,15 +1,30 @@
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionIcon, Avatar, Group, Menu, Stack, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Avatar,
+	Group,
+	Menu,
+	Stack,
+	Text,
+	Textarea,
+} from "@mantine/core";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import {
 	deleteComment,
+	editComment,
 	selectAllUsers,
 	selectProfileData,
 } from "../../../../../../../app/slices";
 import { useIcons } from "../../../../../../../hooks";
 
+TimeAgo.addLocale(en);
+const timeAgo = new TimeAgo("en-US");
+
 export const SingleComment = ({
 	userId,
-	commentText,
+	commentText: commentValue,
 	uploadDate,
 	commentId,
 	postId,
@@ -21,6 +36,9 @@ export const SingleComment = ({
 	const getIcons = useIcons();
 	const singleUser = allUsers.find((user) => user.uid === userId);
 	const { avatarUrl, fullName, uid: thisUserId } = singleUser;
+	const [isEditing, setIsEditing] = useState(false);
+	const [commentText, setCommentText] = useState(commentValue);
+	const editCommentInputRef = useRef();
 
 	const deleteThisComment = () => {
 		dispatch(
@@ -29,6 +47,18 @@ export const SingleComment = ({
 				postId,
 			})
 		);
+	};
+
+	const editThisComment = () => {
+		const text = editCommentInputRef.current.value.trim();
+		dispatch(
+			editComment({
+				commentId,
+				commentText: text,
+			})
+		);
+		setIsEditing(false);
+		setCommentText(text);
 	};
 
 	return (
@@ -65,6 +95,17 @@ export const SingleComment = ({
 							size="md">
 							{fullName}
 						</Text>
+						<Text
+							sx={{ wordWrap: "anywhere" }}
+							lineClamp={1}
+							color="gray"
+							size="xs">
+							{timeAgo.format(
+								typeof uploadDate.toDate === "function"
+									? uploadDate?.toDate()
+									: new Date()
+							)}
+						</Text>
 						{thisUserId === currentUser.uid && (
 							<Menu
 								ml="auto"
@@ -81,9 +122,15 @@ export const SingleComment = ({
 								gutter={10}
 								transition="rotate-left">
 								<Menu.Item
-									// onClick={() => unFollowUserHandler()}
+									onClick={() =>
+										isEditing
+											? setIsEditing(false)
+											: setIsEditing(true)
+									}
 									icon={getIcons("edit", 18)}>
-									Edit comment
+									{isEditing
+										? "Cancel editing"
+										: "Edit comment"}
 								</Menu.Item>
 
 								<Menu.Item
@@ -94,9 +141,31 @@ export const SingleComment = ({
 							</Menu>
 						)}
 					</Group>
-					<Text transform="uppercase" size="sm">
-						{commentText}
-					</Text>
+					{isEditing ? (
+						<Textarea
+							autosize
+							onKeyUp={(e) => {
+								if (e.key === "Enter") editThisComment();
+							}}
+							ref={editCommentInputRef}
+							defaultValue={commentText}
+							minRows={1}
+							maxRows={3}
+							radius="xl"
+							size="sm"
+							autoFocus={true}
+							rightSection={
+								<ActionIcon
+									onClick={editThisComment}
+									variant="transparent">
+									{getIcons("send", 24)}
+								</ActionIcon>
+							}
+							rightSectionWidth={46}
+						/>
+					) : (
+						<Text size="sm">{commentText}</Text>
+					)}
 				</Stack>
 			</Group>
 		</Group>

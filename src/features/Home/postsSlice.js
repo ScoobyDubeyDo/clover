@@ -5,7 +5,6 @@ import {
 	collection,
 	deleteDoc,
 	doc,
-	getDoc,
 	getDocs,
 	limit,
 	orderBy,
@@ -84,11 +83,10 @@ export const getSingleUserPosts = createAsyncThunk(
 export const getExplorePosts = createAsyncThunk(
 	"posts/getExplorePosts",
 	async ({ firstBatch = false, nextBatch = false, lastVisible = null }) => {
-		const posts = [];
+		const firstPosts = [];
+		const lastPosts = [];
 		let last = null;
 		if (firstBatch) {
-			console.log("firstBatch");
-
 			const first = query(
 				collection(db, "posts"),
 				orderBy("uploadDate", "desc"),
@@ -99,12 +97,10 @@ export const getExplorePosts = createAsyncThunk(
 			last = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
 			documentSnapshots.forEach((doc) => {
-				posts.push(doc.data());
+				firstPosts.push(doc.data());
 			});
 		}
-		if (nextBatch && lastVisible !== null) {
-			console.log("nextBatch");
-
+		if (nextBatch && !!lastVisible) {
 			const next = query(
 				collection(db, "posts"),
 				orderBy("uploadDate", "desc"),
@@ -114,11 +110,10 @@ export const getExplorePosts = createAsyncThunk(
 			const documentSnapshots = await getDocs(next);
 			last = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 			documentSnapshots.forEach((doc) => {
-				posts.push(doc.data());
+				lastPosts.push(doc.data());
 			});
 		}
-		console.log(last?.data());
-		return { posts, last };
+		return { firstPosts, last, lastPosts };
 	}
 );
 
@@ -150,8 +145,18 @@ export const addPost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk(
 	"posts/deletePost",
-	async ({ postId, userId }) => {
+	async ({ postId, userId, hasPhoto = false }) => {
 		await deleteDoc(doc(db, "posts", postId));
+		const q = query(
+			collection(db, "comments"),
+			where("postId", "==", postId)
+		);
+		const querySnapshot = await getDocs(q);
+
+		querySnapshot.forEach(async (doc) => {
+			await deleteDoc(doc.ref);
+		});
+
 		const userDocs = await getDocs(collection(db, "users"));
 		userDocs.forEach(async (doc) => {
 			await updateDoc(doc.ref, {
@@ -162,8 +167,11 @@ export const deletePost = createAsyncThunk(
 		await updateDoc(userRef, {
 			posts: arrayRemove(postId),
 		});
-		const postRef = ref(storage, `posts/${userId}/${postId}`);
-		await deleteObject(postRef);
+
+		if (hasPhoto) {
+			const postRef = ref(storage, `posts/${userId}/${postId}`);
+			await deleteObject(postRef);
+		}
 		return { postId };
 	}
 );
@@ -239,12 +247,11 @@ export const addComment = createAsyncThunk(
 		await setDoc(commentRef, {
 			...commentObj,
 		});
-		// Add comment to post's comments:
 		const postRef = doc(db, "posts", postId);
 		await updateDoc(postRef, {
 			comments: arrayUnion(uid),
 		});
-		return { uid, postId };
+		return { commentObj };
 	}
 );
 
@@ -260,6 +267,17 @@ export const deleteComment = createAsyncThunk(
 	}
 );
 
+export const editComment = createAsyncThunk(
+	"posts/editComment",
+	async ({ commentId, commentText }) => {
+		const commentRef = doc(db, "comments", commentId);
+		await updateDoc(commentRef, {
+			commentText: commentText,
+		});
+		return { commentId, commentText };
+	}
+);
+
 const postsSlice = createSlice({
 	name: "posts",
 	initialState,
@@ -268,6 +286,10 @@ const postsSlice = createSlice({
 		[addPost.fulfilled]: (state, action) => {
 			state.userPosts = [action.payload.postObj, ...state.userPosts];
 			state.otherPosts = [action.payload.postObj, ...state.otherPosts];
+			state.explorePosts.posts = [
+				action.payload.postObj,
+				...state.explorePosts.posts,
+			];
 		},
 		[getAllposts.fulfilled]: (state, action) => {
 			state.otherPosts = action.payload.otherPosts;
@@ -280,9 +302,12 @@ const postsSlice = createSlice({
 			state.savedPosts = action.payload.savedPosts;
 		},
 		[getExplorePosts.fulfilled]: (state, action) => {
+			if (action.payload.firstPosts.length > 0) {
+				state.explorePosts.posts = action.payload.firstPosts;
+			}
 			state.explorePosts.posts = [
 				...state.explorePosts.posts,
-				...action.payload.posts,
+				...action.payload.lastPosts,
 			];
 			state.explorePosts.isLoading = false;
 			state.explorePosts.lastVisible = action.payload.last;
@@ -291,11 +316,11 @@ const postsSlice = createSlice({
 			state.explorePosts.isLoading = true;
 		},
 		[deletePost.fulfilled]: (state, action) => {
-			state.userPosts = [...state.userPosts].filter(
-				(post) => post.uid !== action.payload.postId
-			);
-			state.otherPosts = [...state.otherPosts].filter(
-				(post) => post.uid !== action.payload.postId
+			const filterFunc = (post) => post.uid !== action.payload.postId;
+			state.userPosts = [...state.userPosts].filter(filterFunc);
+			state.otherPosts = [...state.otherPosts].filter(filterFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].filter(
+				filterFunc
 			);
 		},
 		[editPost.fulfilled]: (state, action) => {
@@ -305,6 +330,10 @@ const postsSlice = createSlice({
 					: post;
 			state.userPosts = [...state.userPosts].map(mapFunc);
 			state.otherPosts = [...state.otherPosts].map(mapFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].map(
+				mapFunc
+			);
+			state.savedPosts = [...state.savedPosts].map(mapFunc);
 		},
 		[likePost.fulfilled]: (state, action) => {
 			const mapFunc = (post) =>
@@ -320,22 +349,29 @@ const postsSlice = createSlice({
 			state.userPosts = [...state.userPosts].map(mapFunc);
 			state.otherPosts = [...state.otherPosts].map(mapFunc);
 			state.savedPosts = [...state.savedPosts].map(mapFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].map(
+				mapFunc
+			);
 		},
 		[addComment.fulfilled]: (state, action) => {
 			const mapFunc = (post) =>
-				post.uid === action.payload.postId
+				post.uid === action.payload.commentObj.postId
 					? {
 							...post,
-							comments: [...post.comments, action.payload.uid],
+							comments: [
+								...post.comments,
+								action.payload.commentObj.uid,
+							],
 					  }
 					: post;
 			state.userPosts = [...state.userPosts].map(mapFunc);
 			state.otherPosts = [...state.otherPosts].map(mapFunc);
 			state.savedPosts = [...state.savedPosts].map(mapFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].map(
+				mapFunc
+			);
 		},
 		[deleteComment.fulfilled]: (state, action) => {
-			console.log(action.payload);
-
 			const mapFunc = (post) =>
 				post.uid === action.payload.postId
 					? {
@@ -348,6 +384,9 @@ const postsSlice = createSlice({
 			state.userPosts = [...state.userPosts].map(mapFunc);
 			state.otherPosts = [...state.otherPosts].map(mapFunc);
 			state.savedPosts = [...state.savedPosts].map(mapFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].map(
+				mapFunc
+			);
 		},
 		[unLikePost.fulfilled]: (state, action) => {
 			const mapFunc = (post) =>
@@ -362,6 +401,9 @@ const postsSlice = createSlice({
 			state.userPosts = [...state.userPosts].map(mapFunc);
 			state.otherPosts = [...state.otherPosts].map(mapFunc);
 			state.savedPosts = [...state.savedPosts].map(mapFunc);
+			state.explorePosts.posts = [...state.explorePosts.posts].map(
+				mapFunc
+			);
 		},
 		[removePostFromSaved.fulfilled]: (state, action) => {
 			state.savedPosts = [...state.savedPosts].filter(

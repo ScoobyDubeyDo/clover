@@ -13,7 +13,7 @@ export const AllCommentsBox = ({ comments }) => {
 				const q = query(
 					collection(db, "comments"),
 					orderBy("uploadDate", "desc"),
-					where("uid", "in", [...comments.slice(0, 10)])
+					where("uid", "in", [...comments].slice(0, 10))
 				);
 				const querySnapshot = await getDocs(q);
 				const temp = [];
@@ -21,8 +21,8 @@ export const AllCommentsBox = ({ comments }) => {
 				setCommentsDetails(temp);
 			})();
 		}
+		if (comments.length === 0) setCommentsDetails([]);
 	}, [comments]);
-
 	return (
 		<Box
 			sx={{
