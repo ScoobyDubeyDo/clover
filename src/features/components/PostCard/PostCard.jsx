@@ -136,15 +136,17 @@ export const PostCard = ({
 								? getIcons("like-filled", 28)
 								: getIcons("like", 28)}
 						</ActionIcon>
-						<ActionIcon
-							onClick={() =>
-								setCommentsLength(
-									commentsLength > 2 ? 2 : comments.length
-								)
-							}
-							variant="transparent">
-							{getIcons("comment", 28)}
-						</ActionIcon>
+						{comments.length > 2 && (
+							<ActionIcon
+								onClick={() =>
+									setCommentsLength(
+										commentsLength > 2 ? 2 : comments.length
+									)
+								}
+								variant="transparent">
+								{getIcons("comment", 28)}
+							</ActionIcon>
+						)}
 					</Group>
 					<ActionIcon
 						onClick={() => {

@@ -73,10 +73,12 @@ export const UserProfileInfo = ({ children }) => {
 	useEffect(() => {
 		if (!isCurrentUser) {
 			dispatch(getSingleUser(userId));
+			setIsFollowing(singleUser.followers.includes(currentUser?.uid));
 		}
 		return () => {
 			dispatch(removeSingleUserData());
 		};
+		// eslint-disable-next-line
 	}, [dispatch, userId, isCurrentUser]);
 
 	const followUserHandler = () => {
