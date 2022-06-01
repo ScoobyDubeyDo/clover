@@ -66,111 +66,122 @@ export const SingleComment = ({
 			my="xs"
 			position="left"
 			sx={(theme) => ({
+				maxWidth: "100%",
 				gap: theme.spacing.lg,
 				alignItems: "flex-start",
 			})}>
 			<Avatar size="md" ml="xs" src={avatarUrl}>
 				{getIcons("profile")}
 			</Avatar>
-			<Group
-				px="xs"
+
+			<Stack
+				p="xs"
 				sx={(theme) => ({
-					width: "100%",
 					backgroundColor:
 						theme.colorScheme === "dark"
 							? theme.colors.dark[9]
 							: theme.colors.gray[1],
 					borderRadius: theme.radius.md,
+					width: "calc(100% - 68px)",
+					gap: 0,
 				})}>
-				<Stack sx={{ width: "100%", gap: 0 }}>
-					<Group
+				<Group
+					sx={{
+						justifyContent: "flex-start",
+						maxWidth: "100%",
+						minWidth: "100%",
+					}}>
+					<Text
+						transform="uppercase"
 						sx={{
-							justifyContent: "flex-start",
-							width: "100%",
-						}}>
-						<Text
-							transform="uppercase"
-							sx={{ wordWrap: "anywhere", width: "max-content" }}
-							lineClamp={1}
-							color="dimmed"
-							size="md">
-							{fullName}
-						</Text>
-						<Text
-							sx={{ wordWrap: "anywhere", width: "max-content" }}
-							lineClamp={1}
-							color="gray"
-							size="xs">
-							{timeAgo.format(
-								typeof uploadDate.toDate === "function"
-									? uploadDate?.toDate()
-									: new Date()
-							)}
-						</Text>
-						{thisUserId === currentUser.uid && (
-							<Menu
-								ml="auto"
-								control={
-									<ActionIcon size="lg" variant="transparent">
-										{getIcons("menu", 20)}
-									</ActionIcon>
-								}
-								closeOnScroll
-								zIndex="99"
-								withArrow
-								withinPortal
-								position="left"
-								gutter={10}
-								transition="rotate-left">
-								<Menu.Item
-									onClick={() =>
-										isEditing
-											? setIsEditing(false)
-											: setIsEditing(true)
-									}
-									icon={getIcons("edit", 18)}>
-									{isEditing
-										? "Cancel editing"
-										: "Edit comment"}
-								</Menu.Item>
-
-								<Menu.Item
-									onClick={deleteThisComment}
-									icon={getIcons("delete", 20)}>
-									Delete comment
-								</Menu.Item>
-							</Menu>
+							wordWrap: "anywhere",
+							maxWidth: "30%",
+							whiteSpace: "nowrap",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+						}}
+						lineClamp={1}
+						color="dimmed"
+						size="md">
+						{fullName}
+					</Text>
+					<Text
+						sx={{
+							wordWrap: "anywhere",
+							maxWidth: "30%",
+							whiteSpace: "nowrap",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+						}}
+						lineClamp={1}
+						color="gray"
+						size="xs">
+						{timeAgo.format(
+							typeof uploadDate.toDate === "function"
+								? uploadDate?.toDate()
+								: new Date()
 						)}
-					</Group>
-					{isEditing ? (
-						<Textarea
-							autosize
-							onKeyUp={(e) => {
-								if (e.key === "Enter") editThisComment();
-							}}
-							ref={editCommentInputRef}
-							defaultValue={commentText}
-							minRows={1}
-							maxRows={3}
-							radius="xl"
-							size="sm"
-							autoFocus={true}
-							rightSection={
-								<ActionIcon
-									onClick={editThisComment}
-									variant="transparent">
-									{getIcons("send", 24)}
+					</Text>
+					{thisUserId === currentUser.uid && (
+						<Menu
+							ml="auto"
+							control={
+								<ActionIcon size="lg" variant="transparent">
+									{getIcons("menu", 20)}
 								</ActionIcon>
 							}
-							rightSectionWidth={46}
-						/>
-					) : (
-						<Text size="sm" sx={{ wordBreak: "break-all" }}>
-							{commentText}
-						</Text>
+							closeOnScroll
+							zIndex="99"
+							withArrow
+							withinPortal
+							position="left"
+							gutter={10}
+							transition="rotate-left">
+							<Menu.Item
+								onClick={() =>
+									isEditing
+										? setIsEditing(false)
+										: setIsEditing(true)
+								}
+								icon={getIcons("edit", 18)}>
+								{isEditing ? "Cancel editing" : "Edit comment"}
+							</Menu.Item>
+							<Menu.Item
+								onClick={deleteThisComment}
+								icon={getIcons("delete", 20)}>
+								Delete comment
+							</Menu.Item>
+						</Menu>
 					)}
-				</Stack>
-			</Group>
+				</Group>
+				{isEditing ? (
+					<Textarea
+						autosize
+						onKeyUp={(e) => {
+							if (e.key === "Enter") editThisComment();
+						}}
+						ref={editCommentInputRef}
+						defaultValue={commentText}
+						minRows={1}
+						maxRows={3}
+						radius="xl"
+						size="sm"
+						autoFocus={true}
+						rightSection={
+							<ActionIcon
+								onClick={editThisComment}
+								variant="transparent">
+								{getIcons("send", 24)}
+							</ActionIcon>
+						}
+						rightSectionWidth={46}
+					/>
+				) : (
+					<Text size="sm" sx={{ wordBreak: "anywhere" }}>
+						{commentText}
+					</Text>
+				)}
+			</Stack>
 		</Group>
 	);
 };

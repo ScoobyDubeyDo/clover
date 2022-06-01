@@ -30,7 +30,7 @@ export const AddNewComment = ({ postId }) => {
 			autoFocus={false}
 			onChange={(e) => setNewComment(e.target.value)}
 			value={newComment}
-			placeholder="say something about this post..."
+			placeholder="say something..."
 			autosize
 			minRows={1}
 			maxRows={3}
