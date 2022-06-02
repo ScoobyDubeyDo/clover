@@ -2,6 +2,19 @@
 # yarn lockfile v1
 
 
+" workbox-recipes@6.5.3", workbox-recipes@6.5.3:
+  name workbox-recipes
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/workbox-recipes/-/workbox-recipes-6.5.3.tgz#15beac9d8ae7a3a1c100218094a824b4dd3fd59a"
+  integrity sha512-IcgiKYmbGiDvvf3PMSEtmwqxwfQ5zwI7OZPio3GWu4PfehA8jI8JHI3KZj+PCfRiUPZhjQHJ3v1HbNs+SiSkig==
+  dependencies:
+    workbox-cacheable-response "6.5.3"
+    workbox-core "6.5.3"
+    workbox-expiration "6.5.3"
+    workbox-precaching "6.5.3"
+    workbox-routing "6.5.3"
+    workbox-strategies "6.5.3"
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -9982,18 +9995,6 @@ workbox-range-requests@6.5.3:
   integrity sha512-pGCP80Bpn/0Q0MQsfETSfmtXsQcu3M2QCJwSFuJ6cDp8s2XmbUXkzbuQhCUzKR86ZH2Vex/VUjb2UaZBGamijA==
   dependencies:
     workbox-core "6.5.3"
-
-workbox-recipes@6.5.3:
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/workbox-recipes/-/workbox-recipes-6.5.3.tgz#15beac9d8ae7a3a1c100218094a824b4dd3fd59a"
-  integrity sha512-IcgiKYmbGiDvvf3PMSEtmwqxwfQ5zwI7OZPio3GWu4PfehA8jI8JHI3KZj+PCfRiUPZhjQHJ3v1HbNs+SiSkig==
-  dependencies:
-    workbox-cacheable-response "6.5.3"
-    workbox-core "6.5.3"
-    workbox-expiration "6.5.3"
-    workbox-precaching "6.5.3"
-    workbox-routing "6.5.3"
-    workbox-strategies "6.5.3"
 
 workbox-routing@6.5.3:
   version "6.5.3"
