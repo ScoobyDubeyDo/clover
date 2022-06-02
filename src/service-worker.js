@@ -71,9 +71,6 @@ self.addEventListener("message", (event) => {
 // Any other custom service worker logic can go here.
 
 // ----------------------
-
-// Incrementing OFFLINE_VERSION will kick off the install event and force
-// previously cached resources to be updated from the network.
 const OFFLINE_VERSION = 1;
 const CACHE_NAME = "offline";
 // Customize this with a different URL if needed.
@@ -83,11 +80,14 @@ self.addEventListener("install", (event) => {
 	event.waitUntil(
 		(async () => {
 			const cache = await caches.open(CACHE_NAME);
-			// Setting {cache: 'reload'} in the new request will ensure that the response
-			// isn't fulfilled from the HTTP cache; i.e., it will be from the network.
+			// Setting {cache: 'reload'} in the new request will ensure that the
+			// response isn't fulfilled from the HTTP cache; i.e., it will be from
+			// the network.
 			await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
 		})()
 	);
+	// Force the waiting service worker to become the active service worker.
+	self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -118,6 +118,7 @@ self.addEventListener("fetch", (event) => {
 						return preloadResponse;
 					}
 
+					// Always try the network first.
 					const networkResponse = await fetch(event.request);
 					return networkResponse;
 				} catch (error) {
