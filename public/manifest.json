@@ -1,6 +1,6 @@
 {
     "short_name": "Clover",
-    "name": "Clover: the only social",
+    "name": "Clover: the happy place",
     "icons": [
         {
             "src": "logo.ico",
@@ -20,6 +20,6 @@
     ],
     "start_url": ".",
     "display": "standalone",
-    "theme_color": "a9e34b",
+    "theme_color": "#a9e34b",
     "background_color": "#f1f5f9"
 }
