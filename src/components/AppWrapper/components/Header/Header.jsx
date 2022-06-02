@@ -1,16 +1,12 @@
-import {
-	Center,
-	Group,
-	Header as HeadBar,
-	MediaQuery,
-	Text,
-	TextInput,
-} from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { Center, Group, Header as HeadBar, Text } from "@mantine/core";
 import { useIcons, useThemeBreakpoint } from "../../../../hooks";
+import { SearchInput } from "../../../index";
 
 export const Header = () => {
 	const getIcon = useIcons();
 	const matches = useThemeBreakpoint("xs");
+	const navigate = useNavigate();
 	return (
 		<HeadBar
 			height={70}
@@ -20,7 +16,7 @@ export const Header = () => {
 				justifyContent: matches ? "space-between" : "center",
 				alignItems: "center",
 			}}>
-			<Group sx={{ alignItems: "center" }}>
+			<Group sx={{ alignItems: "center" }} onClick={() => navigate("/")}>
 				<Center>{getIcon("logo")}</Center>
 				<Text
 					variant="gradient"
@@ -33,19 +29,7 @@ export const Header = () => {
 					Clover
 				</Text>
 			</Group>
-			<MediaQuery smallerThan="xs" styles={{ display: "none" }}>
-				<TextInput
-					sx={{
-						display: "inline-block",
-						width: "20rem",
-					}}
-					mr="xl"
-					radius="xl"
-					placeholder="Search"
-					type="search"
-					icon={getIcon("search", 20)}
-				/>
-			</MediaQuery>
+			{matches && <SearchInput />}
 		</HeadBar>
 	);
 };

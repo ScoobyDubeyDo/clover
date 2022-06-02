@@ -1,26 +1,17 @@
 import { useSelector } from "react-redux";
-import { Group, MediaQuery, TextInput } from "@mantine/core";
+import { Group, MediaQuery } from "@mantine/core";
 import { selectAllUsers, selectProfileData } from "../../../../app/slices";
-import { useIcons } from "../../../../hooks";
+import { SearchInput } from "../../../../components";
+import { useThemeBreakpoint } from "../../../../hooks";
 import { UserCard } from "./components";
 
 export const ExploreHeader = () => {
-	const getIcon = useIcons();
 	const allUsers = useSelector(selectAllUsers);
 	const { uid: userId } = useSelector(selectProfileData);
+	const matches = useThemeBreakpoint("xs", true);
 	return (
 		<>
-			<MediaQuery largerThan="xs" styles={{ display: "none" }}>
-				<TextInput
-					sx={{
-						maxWidth: "100%",
-					}}
-					radius="xl"
-					placeholder="Search"
-					type="search"
-					icon={getIcon("search", 20)}
-				/>
-			</MediaQuery>
+			{matches && <SearchInput />}
 			<MediaQuery largerThan="md" styles={{ display: "none" }}>
 				<Group
 					my="xs"
