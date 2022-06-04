@@ -35,7 +35,7 @@ export const Navbar = () => {
 									},
 							})}
 							spacing="md">
-							<Navlink label="Home" />
+							<Navlink label="Home" to="/" />
 							<Navlink label="explore" />
 							<Navlink label="Saved" />
 							<Navlink label="Profile" to={`profile/${uid}`} />

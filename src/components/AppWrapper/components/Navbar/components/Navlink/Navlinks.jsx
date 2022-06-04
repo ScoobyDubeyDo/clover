@@ -9,11 +9,18 @@ import { SettingsModal } from "../../../../../SettingsModal/SettingsModal";
 export const Navlink = ({ label, username = "", to = "" }) => {
 	const { pathname } = useLocation();
 	const getIcon = useIcons();
-	const isActive = pathname.split("/")[1] === label.toLowerCase();
+	const isActive =
+		pathname === "/"
+			? "home"
+			: pathname.split("/")[1] === label.toLowerCase()
+			? label.toLowerCase()
+			: "";
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const { avatarUrl } = useSelector(selectProfileData);
+	console.log(isActive);
 
+	const { avatarUrl } = useSelector(selectProfileData);
 	const NavButton = (props) => {
 		return (
 			<Box
@@ -41,7 +48,7 @@ export const Navlink = ({ label, username = "", to = "" }) => {
 							<Avatar size="lg" src={avatarUrl}>
 								{getIcon("profile")}
 							</Avatar>
-						) : isActive ? (
+						) : isActive === label.toLowerCase() ? (
 							getIcon(`${label}-filled`, 28)
 						) : (
 							getIcon(label, 28)
@@ -52,7 +59,11 @@ export const Navlink = ({ label, username = "", to = "" }) => {
 								sx={{ wordWrap: "anywhere" }}
 								lineClamp={1}
 								size="md"
-								weight={isActive ? "bold" : "light"}>
+								weight={
+									isActive === label.toLowerCase()
+										? "bold"
+										: "light"
+								}>
 								{label}
 							</Text>
 							{!!username && (

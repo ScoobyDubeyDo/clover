@@ -30,7 +30,7 @@ export const BottomBar = () => {
 					spacing="xl"
 					grow
 					sx={{ flexWrap: "nowrap" }}>
-					<ActionIcon component={NavLink} to="/home">
+					<ActionIcon component={NavLink} to="/">
 						{({ isActive }) =>
 							isActive ? getIcon("home-filled") : getIcon("home")
 						}

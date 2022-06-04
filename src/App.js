@@ -54,7 +54,7 @@ function App() {
 			<Route element={<PrivateRoute />}>
 				<Route element={<AppWrapper />}>
 					<Route path="/" element={<Home />} />
-					<Route path="/home" element={<Home />} />
+					{/* <Route path="/home" element={<Home />} /> */}
 					<Route path="/explore" element={<Explore />} />
 					<Route path="/saved" element={<Saved />} />
 					<Route path="/profile/:userId" element={<Profile />} />
