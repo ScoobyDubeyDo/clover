@@ -12,7 +12,7 @@ import {
 	TextInput,
 	Title,
 } from "@mantine/core";
-import { useColorScheme, useScrollLock } from "@mantine/hooks";
+import { useColorScheme } from "@mantine/hooks";
 import { selectAllUsers } from "../../app/slices";
 import { useDebounce, useIcons, useThemeBreakpoint } from "../../hooks";
 
@@ -21,7 +21,6 @@ export const SearchInput = () => {
 	const [popoverOpened, setPopoverOpened] = useState(false);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResults, setSearchResults] = useState([]);
-	const [_, setScrollLocked] = useScrollLock();
 	const matches = useThemeBreakpoint("xs");
 	const allUsers = useSelector(selectAllUsers);
 	const debouncedInput = useDebounce(searchInput);
@@ -74,13 +73,11 @@ export const SearchInput = () => {
 			trapFocus={false}
 			transition="scale"
 			onClose={() => {
-				setScrollLocked(false);
 				setSearchInput("");
 				setSearchResults([]);
 			}}
 			onFocusCapture={() => {
 				setPopoverOpened(true);
-				setScrollLocked(true);
 			}}
 			onBlurCapture={() => setPopoverOpened(false)}
 			target={
