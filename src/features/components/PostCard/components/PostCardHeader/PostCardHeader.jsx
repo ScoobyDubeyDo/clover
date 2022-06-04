@@ -61,6 +61,12 @@ export const PostCardHeader = ({
 				hasPhoto,
 			})
 		);
+
+		dispatch(
+			setProfileData({
+				posts: [...currentUser.posts].filter((uid) => uid !== postId),
+			})
+		);
 	};
 
 	const unFollowUserHandler = () => {
@@ -115,7 +121,7 @@ export const PostCardHeader = ({
 						lineClamp={1}
 						color="gray">
 						{timeAgo.format(
-							typeof uploadDate.toDate === "function"
+							typeof uploadDate?.toDate === "function"
 								? uploadDate?.toDate()
 								: new Date()
 						)}

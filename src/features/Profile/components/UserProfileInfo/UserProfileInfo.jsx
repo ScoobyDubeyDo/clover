@@ -66,19 +66,25 @@ export const UserProfileInfo = ({ children }) => {
 	const isCurrentUser = userId === uid;
 	const isDark = colorScheme === "dark";
 	const [isFollowing, setIsFollowing] = useState(
-		singleUser.followers.includes(currentUser?.uid)
+		singleUser.followers.some((uid) => uid === currentUser.uid)
 	);
 	const data = dataBuilder(isCurrentUser, currentUser, singleUser);
 
 	useEffect(() => {
+		if (!!singleUser.followers && !!currentUser.uid && !isCurrentUser) {
+			setIsFollowing(
+				singleUser.followers.some((uid) => uid === currentUser.uid)
+			);
+		}
+	}, [userId, singleUser, currentUser, isCurrentUser]);
+
+	useEffect(() => {
 		if (!isCurrentUser) {
 			dispatch(getSingleUser(userId));
-			setIsFollowing(singleUser.followers.includes(currentUser?.uid));
 		}
 		return () => {
 			dispatch(removeSingleUserData());
 		};
-		// eslint-disable-next-line
 	}, [dispatch, userId, isCurrentUser]);
 
 	const followUserHandler = () => {
@@ -93,7 +99,6 @@ export const UserProfileInfo = ({ children }) => {
 				following: [...currentUser.following, singleUser?.uid],
 			})
 		);
-		setIsFollowing(true);
 	};
 	const unFollowUserHandler = () => {
 		dispatch(
@@ -111,7 +116,6 @@ export const UserProfileInfo = ({ children }) => {
 				],
 			})
 		);
-		setIsFollowing(false);
 	};
 
 	return (
