@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
 	Anchor,
@@ -10,10 +10,12 @@ import {
 } from "@mantine/core";
 import { useAuthServices, useThemeBreakpoint } from "../../../hooks";
 import { AuthCard } from "../../components";
+import { GuestUsers } from "./components";
 
 export const Signin = () => {
 	const matches = useThemeBreakpoint("xs");
 	const { handleSignIn } = useAuthServices();
+	const [guestAcc, setGuestAcc] = useState("");
 
 	const [inputFieldsValue, setInputFieldsValue] = useState({
 		email: "",
@@ -42,10 +44,15 @@ export const Signin = () => {
 			email: inputFieldsValue.email,
 			password: inputFieldsValue.password,
 		});
-		// hack
 		handleInput(e);
-		// hack
 	};
+
+	useEffect(() => {
+		if (!!guestAcc) {
+			handleInput({ target: { value: guestAcc } }, "email");
+			handleInput({ target: { value: "zzzzzzzz" } }, "password");
+		}
+	}, [guestAcc]);
 
 	return (
 		<AuthCard title="Sign in to Clover">
@@ -67,6 +74,8 @@ export const Signin = () => {
 					size="md"
 					required
 				/>
+
+				<GuestUsers value={guestAcc} setValue={setGuestAcc} />
 				<Button type="submit" fullWidth mt="xl" compact size="xl">
 					Sign in
 				</Button>
