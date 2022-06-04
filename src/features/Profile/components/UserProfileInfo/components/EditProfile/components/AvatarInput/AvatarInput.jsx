@@ -22,10 +22,14 @@ export const AvatarInput = ({ handleInput }) => {
 	const avatarChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
-			setAvatarImg(URL.createObjectURL(e.target.files[0]));
-			handleInput({
-				avatarUrl: file,
-			});
+			if (file.size < 5000000) {
+				setAvatarImg(URL.createObjectURL(e.target.files[0]));
+				handleInput({
+					avatarUrl: file,
+				});
+			} else {
+				console.log("file should be of 5MB or less");
+			}
 		}
 	};
 

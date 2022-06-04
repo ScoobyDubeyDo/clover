@@ -6,7 +6,7 @@ import {
 	getSingleUserPosts,
 	selectCurrentUserPosts,
 	selectOtherUserPosts,
-	selectProfileData, // selectSingleUserData,
+	selectProfileData,
 } from "../../app/slices";
 import { PostCard } from "../components";
 import { UserProfileInfo } from "./components";

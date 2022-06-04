@@ -1,19 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Center, Loader, Stack, Title } from "@mantine/core";
+import { Box, Center, Loader, Stack, Title } from "@mantine/core";
+import { useIntersection } from "@mantine/hooks";
 import { getExplorePosts, selectExplorePosts } from "../../app/slices";
-import { useIntersectionObserver } from "../../hooks";
 import { PostCard } from "../components";
 import { ExploreHeader } from "./components/ExploreHeader/ExploreHeader";
 
 export const Explore = () => {
 	const dispatch = useDispatch();
-	const lastElementRef = useRef(null);
 	const { posts, lastVisible, isLoading } = useSelector(selectExplorePosts);
-	const isOnScreen = useIntersectionObserver(
-		lastElementRef,
-		posts?.length > 0
-	);
+	const [ref, observedEntry] = useIntersection({
+		threshold: 1,
+	});
+	const isOnScreen = observedEntry?.isIntersecting;
 
 	useEffect(() => {
 		dispatch(getExplorePosts({ firstBatch: true }));
@@ -41,7 +40,12 @@ export const Explore = () => {
 					</Center>
 				)}
 				{isLoading && <Loader size="xl" m="auto" />}
-				{posts?.length > 0 && <div ref={lastElementRef} />}
+				{posts?.length > 0 && (
+					<Box
+						sx={{ minHeight: !!lastVisible ? "4rem" : "unset" }}
+						ref={ref}
+					/>
+				)}
 			</Stack>
 		</>
 	);

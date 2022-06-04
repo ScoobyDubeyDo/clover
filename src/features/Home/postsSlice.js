@@ -35,6 +35,7 @@ export const getAllposts = createAsyncThunk(
 	async ({ userId, following }) => {
 		const q = query(
 			collection(db, "posts"),
+			orderBy("uploadDate", "desc"),
 			where("userId", "in", [...following, userId])
 		);
 		const querySnapshot = await getDocs(q);

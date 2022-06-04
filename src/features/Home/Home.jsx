@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { Center, Stack, Title } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { Button, Center, Stack, Text, Title } from "@mantine/core";
 import { selectAllPosts } from "../../app/slices";
 import { PostCard } from "../components";
 
@@ -13,11 +14,24 @@ export const Home = () => {
 				))
 			) : (
 				<Center
+					m="auto"
+					py="2rem"
 					sx={{
 						height: "40vh",
-						border: "1px dashed gray",
+						flexDirection: "column",
+						alignItems: "flex-start",
+						maxWidth: "28rem",
 					}}>
-					<Title order={2}>Nothing to show</Title>
+					<Title mb="xs" order={1}>
+						Welcome to Clover!
+					</Title>
+					<Text mb="xl" color="dimmed">
+						This is the best place to see what’s happening in your
+						world. Find some people and follow them now.
+					</Text>
+					<Button component={Link} to="/explore">
+						Let's Explore
+					</Button>
 				</Center>
 			)}
 		</Stack>

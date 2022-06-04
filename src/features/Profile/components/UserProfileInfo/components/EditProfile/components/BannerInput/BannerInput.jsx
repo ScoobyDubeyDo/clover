@@ -16,10 +16,14 @@ export const BannerInput = ({ handleInput }) => {
 	const bannerChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
-			setBannerImg(URL.createObjectURL(e.target.files[0]));
-			handleInput({
-				bannerUrl: file,
-			});
+			if (file.size < 5000000) {
+				setBannerImg(URL.createObjectURL(e.target.files[0]));
+				handleInput({
+					bannerUrl: file,
+				});
+			} else {
+				console.log("file should be of 5MB or less");
+			}
 		}
 	};
 

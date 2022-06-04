@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -14,14 +15,14 @@ import { auth, db } from "../firebase";
 
 export const useAuthServices = () => {
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	const handleSignUp = async ({ email, password, fullName, username }) => {
 		try {
 			dispatch(setProfileLoading(true));
 			const userCredential = await createUserWithEmailAndPassword(
 				auth,
-				email,
-				password
+				email.trim(),
+				password.trim()
 			);
 			const userDetails = {
 				email: userCredential.user.email,
@@ -60,7 +61,10 @@ export const useAuthServices = () => {
 	const handleSignIn = async ({ email, password }) => {
 		try {
 			dispatch(setProfileLoading(true));
-			signInWithEmailAndPassword(auth, email, password);
+			signInWithEmailAndPassword(auth, email.trim(), password.trim());
+			navigate({
+				pathname: "/",
+			});
 		} catch (error) {
 			const errorMessage = error.message;
 			console.log({ errorMessage });
@@ -73,6 +77,10 @@ export const useAuthServices = () => {
 		try {
 			await signOut(auth);
 			dispatch(removeProfileData());
+			navigate({
+				pathname: "/sign-in",
+				state: { from: "/" },
+			});
 		} catch (error) {
 			const errorMessage = error.message;
 			console.log({ errorMessage });

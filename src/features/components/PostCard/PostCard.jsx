@@ -103,7 +103,7 @@ export const PostCard = ({
 					hasPhoto={!!photoUrl}
 				/>
 				<Spoiler
-					sx={{ wordWrap: "anywhere" }}
+					sx={{ wordWrap: "anywhere", whiteSpace: "pre-wrap" }}
 					maxHeight={50}
 					my="sm"
 					showLabel="...see more">
