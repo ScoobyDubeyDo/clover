@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Center, Stack, Title } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { Button, Center, Stack, Text, Title } from "@mantine/core";
 import {
 	getSavedPosts,
 	selectProfileData,
@@ -23,11 +24,24 @@ export const Saved = () => {
 				posts.map((post) => <PostCard key={post.uid} post={post} />)
 			) : (
 				<Center
+					m="auto"
+					py="2rem"
 					sx={{
 						height: "40vh",
-						border: "1px dashed gray",
+						flexDirection: "column",
+						alignItems: "flex-start",
+						maxWidth: "28rem",
 					}}>
-					<Title order={2}>Nothing to show</Title>
+					<Title mb="xs" order={1}>
+						Save Cloves for later
+					</Title>
+					<Text mb="xl" color="dimmed">
+						Don’t let the good ones fly away! Save Cloves to easily
+						find them again in the future.
+					</Text>
+					<Button component={Link} to="/explore">
+						Go save some...
+					</Button>
 				</Center>
 			)}
 		</Stack>
