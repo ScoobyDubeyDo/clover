@@ -18,8 +18,6 @@ export const Navlink = ({ label, username = "", to = "" }) => {
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	console.log(isActive);
-
 	const { avatarUrl } = useSelector(selectProfileData);
 	const NavButton = (props) => {
 		return (
