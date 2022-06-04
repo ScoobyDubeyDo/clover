@@ -18,7 +18,7 @@ import {
 import { nanoid } from "@reduxjs/toolkit";
 import AmazingEmojiPicker from "amazing-react-emojipicker";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { addPost, selectProfileData } from "../../app/slices";
+import { addPost, selectProfileData, setProfileData } from "../../app/slices";
 import { storage } from "../../firebase";
 import { useIcons } from "../../hooks";
 
@@ -36,6 +36,7 @@ export const AddPostModal = ({ opened, setOpened }) => {
 		avatarUrl,
 		username,
 		fullName,
+		posts,
 		uid: userId,
 	} = useSelector(selectProfileData);
 	const dispatch = useDispatch();
@@ -70,6 +71,11 @@ export const AddPostModal = ({ opened, setOpened }) => {
 					photoUrl: postDownloadURL,
 					userId,
 					uid: postUid,
+				})
+			);
+			dispatch(
+				setProfileData({
+					posts: [postUid, ...posts],
 				})
 			);
 		}

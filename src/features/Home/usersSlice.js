@@ -114,6 +114,15 @@ const usersSlice = createSlice({
 					  }
 					: user;
 			});
+			if (state.singleUser.data.uid === action.payload.followedUserID) {
+				state.singleUser.data = {
+					...state.singleUser.data,
+					followers: [
+						...state.singleUser.data.followers,
+						action.payload.currentUserID,
+					],
+				};
+			}
 		},
 		[unFollowUser.fulfilled]: (state, action) => {
 			state.allUsers = [...state.allUsers].map((user) => {
@@ -129,6 +138,16 @@ const usersSlice = createSlice({
 					  }
 					: user;
 			});
+			if (state.singleUser.data.uid === action.payload.followedUserID) {
+				state.singleUser.data = {
+					...state.singleUser.data,
+					followers: [
+						...state.singleUser.data.followers.filter(
+							(ele) => ele !== action.payload.currentUserID
+						),
+					],
+				};
+			}
 		},
 	},
 });

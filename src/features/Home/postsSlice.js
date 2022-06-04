@@ -284,12 +284,12 @@ const postsSlice = createSlice({
 	reducers: {},
 	extraReducers: {
 		[addPost.fulfilled]: (state, action) => {
-			state.userPosts = [action.payload.postObj, ...state.userPosts];
-			state.otherPosts = [action.payload.postObj, ...state.otherPosts];
-			state.explorePosts.posts = [
-				action.payload.postObj,
-				...state.explorePosts.posts,
-			];
+			// state.userPosts = [action.payload.postObj, ...state.userPosts];
+			// state.otherPosts = [action.payload.postObj, ...state.otherPosts];
+			// state.explorePosts.posts = [
+			// 	action.payload.postObj,
+			// 	...state.explorePosts.posts,
+			// ];
 		},
 		[getAllposts.fulfilled]: (state, action) => {
 			state.otherPosts = action.payload.otherPosts;
