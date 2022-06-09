@@ -104,7 +104,7 @@ export const useIcons = (iconName = "", size = 35) => {
 				return <MdBookmark size={size} />;
 
 			default:
-				return <GiLongAntennaeBug color="red" size={size} />;
+				return <GiLongAntennaeBug size={size} />;
 		}
 	};
 

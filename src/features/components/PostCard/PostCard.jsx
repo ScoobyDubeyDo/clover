@@ -35,6 +35,7 @@ export const PostCard = ({
 		currentUser.bookmarked?.some((id) => id === postId)
 	);
 	const [commentsLength, setCommentsLength] = useState(2);
+	const [addCommentToggle, setAddCommentToggle] = useState(false);
 
 	const likeHandler = () => {
 		dispatch(
@@ -136,17 +137,12 @@ export const PostCard = ({
 								? getIcons("like-filled", 28)
 								: getIcons("like", 28)}
 						</ActionIcon>
-						{comments.length > 2 && (
-							<ActionIcon
-								onClick={() =>
-									setCommentsLength(
-										commentsLength > 2 ? 2 : comments.length
-									)
-								}
-								variant="transparent">
-								{getIcons("comment", 28)}
-							</ActionIcon>
-						)}
+
+						<ActionIcon
+							onClick={() => setAddCommentToggle((prev) => !prev)}
+							variant="transparent">
+							{getIcons("comment", 28)}
+						</ActionIcon>
 					</Group>
 					<ActionIcon
 						onClick={() => {
@@ -159,12 +155,18 @@ export const PostCard = ({
 					</ActionIcon>
 				</Group>
 				<Text>{likes.length} Likes</Text>
+				{addCommentToggle && (
+					<AddNewComment
+						setCommentsLength={setCommentsLength}
+						setAddCommentToggle={setAddCommentToggle}
+						postId={postId}
+					/>
+				)}
 				<AllCommentsBox
+					comments={comments}
 					commentsLength={commentsLength}
 					setCommentsLength={setCommentsLength}
-					comments={comments}
 				/>
-				<AddNewComment postId={postId} />
 			</Card>
 			<EditPostModal
 				opened={editModalOpen}

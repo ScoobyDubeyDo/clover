@@ -6,10 +6,8 @@ import {
 	selectProfileData,
 	setProfileData,
 } from "../../../../../../app/slices";
-import { useIcons } from "../../../../../../hooks";
 
 export const UserCard = ({ uid, name, username, photoURL }) => {
-	const avatar = useIcons("profile");
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 

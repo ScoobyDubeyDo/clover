@@ -4,13 +4,17 @@ import { ActionIcon, Avatar, Textarea } from "@mantine/core";
 import { addComment, selectProfileData } from "../../../../../app/slices";
 import { useIcons } from "../../../../../hooks";
 
-export const AddNewComment = ({ postId }) => {
+export const AddNewComment = ({
+	postId,
+	setAddCommentToggle,
+	setCommentsLength,
+}) => {
 	const [newComment, setNewComment] = useState("");
 	const getIcons = useIcons();
 	const { avatarUrl, uid } = useSelector(selectProfileData);
 	const dispatch = useDispatch();
 	const addCommentHandler = () => {
-		if (!!newComment) {
+		if (!!newComment.trim()) {
 			dispatch(
 				addComment({
 					commentText: newComment.trim(),
@@ -19,6 +23,8 @@ export const AddNewComment = ({ postId }) => {
 				})
 			);
 			setNewComment("");
+			setAddCommentToggle(false);
+			setCommentsLength(2);
 		}
 	};
 

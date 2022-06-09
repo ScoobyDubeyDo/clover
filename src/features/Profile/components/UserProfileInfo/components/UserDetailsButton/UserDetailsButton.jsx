@@ -7,7 +7,6 @@ import {
 	Text,
 	UnstyledButton,
 } from "@mantine/core";
-import { useIcons } from "../../../../../../hooks";
 
 export const UserDetailsButton = ({
 	isCurrentUser = false,
@@ -21,7 +20,6 @@ export const UserDetailsButton = ({
 	setOpened,
 }) => {
 	const navigate = useNavigate();
-	const avatar = useIcons("profile");
 
 	return (
 		<UnstyledButton
@@ -44,7 +42,6 @@ export const UserDetailsButton = ({
 			<Group position="apart" sx={(theme) => ({ gap: theme.spacing.lg })}>
 				<Group>
 					<Avatar size="lg" ml="xs" src={avatarUrl} />
-
 					<Stack sx={{ gap: 0 }}>
 						<Text
 							transform="uppercase"

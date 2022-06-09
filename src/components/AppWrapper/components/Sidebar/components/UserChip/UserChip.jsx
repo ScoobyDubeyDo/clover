@@ -13,10 +13,9 @@ import {
 	selectProfileData,
 	setProfileData,
 } from "../../../../../../app/slices";
-import { useIcons, useThemeBreakpoint } from "../../../../../../hooks";
+import { useThemeBreakpoint } from "../../../../../../hooks";
 
 export const UserChip = ({ uid, name, username, photoURL }) => {
-	const avatar = useIcons("profile");
 	const matches = useThemeBreakpoint("lg");
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

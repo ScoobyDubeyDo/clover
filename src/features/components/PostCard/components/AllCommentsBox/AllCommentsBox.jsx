@@ -10,6 +10,7 @@ export const AllCommentsBox = ({
 	setCommentsLength,
 }) => {
 	const [commentsDetails, setCommentsDetails] = useState([]);
+
 	useEffect(() => {
 		if (comments.length > 0) {
 			(async () => {

@@ -174,6 +174,7 @@ export const UserProfileInfo = ({ children }) => {
 												onClick={() =>
 													setIsModalOpen((o) => !o)
 												}
+												color={isDark ? "gray" : "dark"}
 												size="lg"
 												radius="xl"
 												variant="outline">
