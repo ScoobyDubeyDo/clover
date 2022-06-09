@@ -27,7 +27,7 @@ const initialState = {
 			bookmarked: [],
 			website: "",
 		},
-		error: "",
+		error: false,
 	},
 };
 
@@ -45,12 +45,8 @@ export const getAllUsers = createAsyncThunk("users/getAllUsers", async (id) => {
 export const getSingleUser = createAsyncThunk(
 	"users/getSingleUser",
 	async (id) => {
-		try {
-			const userDoc = await getDoc(doc(collection(db, "users"), id));
-			return userDoc.data();
-		} catch (error) {
-			console.log(error);
-		}
+		const userDoc = await getDoc(doc(collection(db, "users"), id));
+		return userDoc.data();
 	}
 );
 
@@ -97,7 +93,8 @@ const usersSlice = createSlice({
 			state.allUsers = action.payload;
 		},
 		[getSingleUser.fulfilled]: (state, action) => {
-			state.singleUser.data = action.payload;
+			if (action.payload === undefined) state.singleUser.error = true;
+			else state.singleUser.data = action.payload;
 		},
 		[getSingleUser.rejected]: (state, action) => {
 			state.singleUser.error = action.payload;

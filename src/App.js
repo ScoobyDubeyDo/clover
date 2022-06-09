@@ -12,6 +12,7 @@ import { PrivateRoute } from "./components";
 import { AppWrapper } from "./components/AppWrapper/AppWrapper";
 import {
 	Explore,
+	FourOFour,
 	Home,
 	Profile,
 	Saved,
@@ -61,7 +62,7 @@ function App() {
 					<Route path="/singlepost" element={<SinglePost />} />
 				</Route>
 			</Route>
-			<Route path="*" element={<>asasass</>} />
+			<Route path="*" element={<FourOFour />} />
 		</Routes>
 	);
 }

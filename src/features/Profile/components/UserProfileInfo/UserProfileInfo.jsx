@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	ActionIcon,
 	Anchor,
@@ -22,6 +22,7 @@ import {
 	removeSingleUserData,
 	selectProfileData,
 	selectSingleUserData,
+	selectSingleUserError,
 	setProfileData,
 	unFollowUser,
 } from "../../../../app/slices";
@@ -59,6 +60,7 @@ export const UserProfileInfo = ({ children }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const settingsIcon = useIcons("settings", 20);
 	const singleUser = useSelector(selectSingleUserData);
+	const singleUserError = useSelector(selectSingleUserError);
 	const currentUser = useSelector(selectProfileData);
 	const dispatch = useDispatch();
 	const { userId } = useParams();
@@ -69,6 +71,7 @@ export const UserProfileInfo = ({ children }) => {
 		singleUser.followers.some((uid) => uid === currentUser.uid)
 	);
 	const data = dataBuilder(isCurrentUser, currentUser, singleUser);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (!!singleUser.followers && !!currentUser.uid && !isCurrentUser) {
@@ -86,6 +89,12 @@ export const UserProfileInfo = ({ children }) => {
 			dispatch(removeSingleUserData());
 		};
 	}, [dispatch, userId, isCurrentUser]);
+
+	useEffect(() => {
+		if (!isCurrentUser && singleUserError) {
+			navigate("/404", { replace: true });
+		}
+	}, [isCurrentUser, navigate, singleUserError]);
 
 	const followUserHandler = () => {
 		dispatch(

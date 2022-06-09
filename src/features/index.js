@@ -5,3 +5,4 @@ export { SinglePost } from "./SinglePost/SinglePost ";
 export { Saved } from "./Saved/Saved";
 export { Signin } from "./authentication/Signin/Signin";
 export { Signup } from "./authentication/Signup/Signup";
+export { FourOFour } from "./FourOFour/FourOFour";
