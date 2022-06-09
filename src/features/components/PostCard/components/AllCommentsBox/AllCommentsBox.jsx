@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Text } from "@mantine/core";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../../firebase";
 import { SingleComment } from "./components";
 
@@ -13,14 +13,20 @@ export const AllCommentsBox = ({
 	useEffect(() => {
 		if (comments.length > 0) {
 			(async () => {
-				const q = query(
-					collection(db, "comments"),
-					orderBy("uploadDate", "desc"),
-					where("uid", "in", [...comments].slice(0, 10))
-				);
-				const querySnapshot = await getDocs(q);
 				const temp = [];
-				querySnapshot.forEach((comment) => temp.push(comment.data()));
+				let i = 0;
+				while (true) {
+					const q = query(
+						collection(db, "comments"),
+						where("uid", "in", [...comments].slice(i, i + 10))
+					);
+					const querySnapshot = await getDocs(q);
+					querySnapshot.forEach((comment) =>
+						temp.push(comment.data())
+					);
+					if (querySnapshot.size === 10) i += 10;
+					else break;
+				}
 				setCommentsDetails(temp);
 			})();
 		}
@@ -50,7 +56,11 @@ export const AllCommentsBox = ({
 				</Text>
 			)}
 			<div>
-				{commentsDetails
+				{[...commentsDetails]
+					.sort(
+						(a, b) =>
+							b.uploadDate?.toDate() - a.uploadDate?.toDate()
+					)
 					.slice(0, commentsLength)
 					.map(({ uid, userId, commentText, uploadDate, postId }) => {
 						return (

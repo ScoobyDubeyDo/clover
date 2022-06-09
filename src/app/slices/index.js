@@ -40,8 +40,3 @@ export {
 	setProfileData,
 	setProfileLoading,
 } from "../../features/Profile/profileSlice";
-export {
-	default as authenticationReducer,
-	selectUserToken,
-	setToken,
-} from "../../features/authentication/authenticationSlice";

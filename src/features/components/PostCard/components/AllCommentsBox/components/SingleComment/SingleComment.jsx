@@ -70,9 +70,7 @@ export const SingleComment = ({
 				gap: theme.spacing.lg,
 				alignItems: "flex-start",
 			})}>
-			<Avatar size="md" ml="xs" src={avatarUrl}>
-				{getIcons("profile")}
-			</Avatar>
+			<Avatar size="md" ml="xs" src={avatarUrl} />
 
 			<Stack
 				p="xs"

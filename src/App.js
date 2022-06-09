@@ -7,7 +7,6 @@ import {
 	getAllposts,
 	getCurrentUserDetails,
 	selectProfileData,
-	setToken,
 } from "./app/slices";
 import { PrivateRoute } from "./components";
 import { AppWrapper } from "./components/AppWrapper/AppWrapper";
@@ -27,7 +26,7 @@ function App() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			dispatch(setToken(user?.accessToken));
+			localStorage.setItem("myToken", user?.accessToken);
 			dispatch(getCurrentUserDetails(user?.uid));
 			dispatch(getAllUsers(user?.uid));
 		});
@@ -37,12 +36,14 @@ function App() {
 	}, [dispatch]);
 
 	useEffect(() => {
-		dispatch(
-			getAllposts({
-				userId: currentUser?.uid,
-				following: currentUser?.following,
-			})
-		);
+		if (!!currentUser.uid) {
+			dispatch(
+				getAllposts({
+					userId: currentUser.uid,
+					following: currentUser.following,
+				})
+			);
+		}
 	}, [currentUser, dispatch]);
 
 	return (
@@ -54,7 +55,6 @@ function App() {
 			<Route element={<PrivateRoute />}>
 				<Route element={<AppWrapper />}>
 					<Route path="/" element={<Home />} />
-					{/* <Route path="/home" element={<Home />} /> */}
 					<Route path="/explore" element={<Explore />} />
 					<Route path="/saved" element={<Saved />} />
 					<Route path="/profile/:userId" element={<Profile />} />

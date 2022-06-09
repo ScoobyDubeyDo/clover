@@ -54,9 +54,8 @@ export const UserCard = ({ uid, name, username, photoURL }) => {
 					alignItems: "center",
 					justifyContent: "space-between",
 				}}>
-				<Avatar size="xl" ml="xs" src={photoURL}>
-					{avatar}
-				</Avatar>
+				<Avatar size="xl" ml="xs" src={photoURL} />
+
 				<Text
 					transform="uppercase"
 					align="center"

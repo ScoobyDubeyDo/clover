@@ -42,11 +42,7 @@ export const AddNewComment = ({ postId }) => {
 					left: 5,
 				},
 			}}
-			icon={
-				<Avatar alt="profile of user" src={avatarUrl}>
-					{getIcons("profile", 28)}
-				</Avatar>
-			}
+			icon={<Avatar alt="profile of user" src={avatarUrl} />}
 			rightSection={
 				<ActionIcon onClick={addCommentHandler} variant="transparent">
 					{getIcons("send", 24)}

@@ -33,20 +33,33 @@ const initialState = {
 export const getAllposts = createAsyncThunk(
 	"posts/getAllPosts",
 	async ({ userId, following }) => {
-		const q = query(
-			collection(db, "posts"),
-			orderBy("uploadDate", "desc"),
-			where("userId", "in", [...following, userId])
-		);
-		const querySnapshot = await getDocs(q);
 		const userPosts = [];
 		const otherPosts = [];
+		let i = 0;
+		while (true) {
+			const q = query(
+				collection(db, "posts"),
+				orderBy("uploadDate", "desc"),
+				where("userId", "in", [...following].slice(i, i + 10))
+			);
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach((doc) => {
+				otherPosts.push(doc.data());
+			});
+			if (querySnapshot.size === 10) i += 10;
+			else break;
+		}
+
+		const q2 = query(
+			collection(db, "posts"),
+			orderBy("uploadDate", "desc"),
+			where("userId", "==", userId)
+		);
+		const querySnapshot = await getDocs(q2);
 		querySnapshot.forEach((doc) => {
-			if (doc.data().userId === userId) {
-				userPosts.push(doc.data());
-			}
-			otherPosts.push(doc.data());
+			userPosts.push(doc.data());
 		});
+
 		return { userPosts, otherPosts };
 	}
 );

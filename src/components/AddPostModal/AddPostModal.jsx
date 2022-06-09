@@ -97,9 +97,7 @@ export const AddPostModal = ({ opened, setOpened }) => {
 			transition="pop"
 			title={
 				<Group>
-					<Avatar size="lg" src={avatarUrl}>
-						{getIcon("profile", 40)}
-					</Avatar>
+					<Avatar size="lg" src={avatarUrl} />
 					<Stack sx={{ gap: 0 }}>
 						<Text
 							transform="uppercase"

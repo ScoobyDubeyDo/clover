@@ -81,6 +81,7 @@ export const useAuthServices = () => {
 				pathname: "/sign-in",
 				state: { from: "/" },
 			});
+			localStorage.removeItem("myToken");
 		} catch (error) {
 			const errorMessage = error.message;
 			console.log({ errorMessage });

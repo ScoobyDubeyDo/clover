@@ -55,9 +55,8 @@ export const UserChip = ({ uid, name, username, photoURL }) => {
 			})}>
 			<Group position="apart" sx={(theme) => ({ gap: theme.spacing.lg })}>
 				<Group>
-					<Avatar size="md" ml="xs" src={photoURL}>
-						{avatar}
-					</Avatar>
+					<Avatar size="md" ml="xs" src={photoURL} />
+
 					<Stack sx={{ gap: 0 }}>
 						<Text
 							transform="uppercase"

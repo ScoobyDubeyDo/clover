@@ -16,17 +16,18 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 const getHeaderDetails = (currentUser, singleUser, userId) => {
-	const isCurrentUser = currentUser.uid === userId;
 	const temp = {};
-	["avatarUrl", "fullName", "username"].forEach((ele) => {
-		isCurrentUser
-			? (temp[ele] = currentUser[ele])
-			: (temp[ele] = singleUser[ele]);
-	});
-
-	temp.isFollowing = isCurrentUser
-		? null
-		: currentUser.following.includes(singleUser?.uid);
+	const isCurrentUser = currentUser.uid === userId;
+	if (!!singleUser?.uid || isCurrentUser) {
+		["avatarUrl", "fullName", "username"].forEach((ele) => {
+			isCurrentUser
+				? (temp[ele] = currentUser[ele])
+				: (temp[ele] = singleUser[ele]);
+		});
+		temp.isFollowing = isCurrentUser
+			? null
+			: currentUser.following.includes(singleUser?.uid);
+	}
 	return temp;
 };
 
@@ -98,9 +99,7 @@ export const PostCardHeader = ({
 					cursor: "pointer",
 				}}
 				onClick={() => navigate(`/profile/${userId}`)}>
-				<Avatar size="lg" alt="profile of user" src={avatarUrl}>
-					{getIcons("profile", 28)}
-				</Avatar>
+				<Avatar size="lg" alt="profile of user" src={avatarUrl} />
 				<Stack sx={{ gap: 0 }}>
 					<Text
 						transform="uppercase"

@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { selectUserToken } from "../../features/authentication/authenticationSlice";
 
 export const PrivateRoute = ({ switchPath = true }) => {
 	const location = useLocation();
-	const userToken = useSelector(selectUserToken);
+	const userToken =
+		localStorage.getItem("myToken") === "undefined"
+			? null
+			: localStorage.getItem("myToken");
 
 	if (switchPath) {
 		return !!userToken ? (

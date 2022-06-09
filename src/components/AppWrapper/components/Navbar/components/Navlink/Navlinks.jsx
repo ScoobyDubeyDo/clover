@@ -43,9 +43,7 @@ export const Navlink = ({ label, username = "", to = "" }) => {
 					})}>
 					<Group sx={{ flexWrap: "nowrap" }}>
 						{!!username ? (
-							<Avatar size="lg" src={avatarUrl}>
-								{getIcon("profile")}
-							</Avatar>
+							<Avatar size="lg" src={avatarUrl} />
 						) : isActive === label.toLowerCase() ? (
 							getIcon(`${label}-filled`, 28)
 						) : (

@@ -127,9 +127,7 @@ export const SearchInput = () => {
 									setSearchResults([]);
 								}}>
 								<Group position="left">
-									<Avatar size="lg" ml="xs" src={avatarUrl}>
-										{getIcon("profile", 40)}
-									</Avatar>
+									<Avatar size="lg" ml="xs" src={avatarUrl} />
 									<Stack sx={{ gap: 0 }}>
 										<Highlight
 											highlightStyles={(theme) => ({
