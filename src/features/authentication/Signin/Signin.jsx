@@ -8,7 +8,11 @@ import {
 	Text,
 	TextInput,
 } from "@mantine/core";
-import { useAuthServices, useThemeBreakpoint } from "../../../hooks";
+import {
+	useAuthServices,
+	useFormHandler,
+	useThemeBreakpoint,
+} from "../../../hooks";
 import { AuthCard } from "../../components";
 import { GuestUsers } from "./components";
 
@@ -16,60 +20,42 @@ export const Signin = () => {
 	const matches = useThemeBreakpoint("xs");
 	const { handleSignIn } = useAuthServices();
 	const [guestAcc, setGuestAcc] = useState("");
+	const form = useFormHandler("signin");
 
-	const [inputFieldsValue, setInputFieldsValue] = useState({
-		email: "",
-		password: "",
-	});
-
-	const handleInput = (e, fieldName = "") => {
-		if (!!fieldName) {
-			setInputFieldsValue((prev) => {
-				return {
-					...prev,
-					[fieldName]: e.target.value,
-				};
-			});
-		} else {
-			setInputFieldsValue({
-				email: "",
-				password: "",
-			});
-		}
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const handleSubmit = (values) => {
+		console.log(values);
 		handleSignIn({
-			email: inputFieldsValue.email,
-			password: inputFieldsValue.password,
+			...values,
 		});
-		handleInput(e);
 	};
 
 	useEffect(() => {
 		if (!!guestAcc) {
-			handleInput({ target: { value: guestAcc } }, "email");
-			handleInput({ target: { value: "zzzzzzzz" } }, "password");
+			form.setValues({
+				email: guestAcc,
+				password: "zzzzzzzz",
+			});
 		}
 	}, [guestAcc]);
 
 	return (
 		<AuthCard title="Sign in to Clover">
-			<Box component="form" m={matches && "lg"} onSubmit={handleSubmit}>
+			<Box
+				noValidate={true}
+				component="form"
+				m={matches && "lg"}
+				onSubmit={form.onSubmit(handleSubmit)}>
 				<TextInput
-					value={inputFieldsValue.email}
-					onChange={(e) => handleInput(e, "email")}
-					placeholder="email"
-					label="Email"
+					{...form.getInputProps("email")}
+					placeholder="your email"
+					label="Email Id"
 					size="md"
-					type="text"
+					type="email"
 					required
 				/>
 				<PasswordInput
-					value={inputFieldsValue.password}
-					onChange={(e) => handleInput(e, "password")}
-					placeholder="Password"
+					{...form.getInputProps("password")}
+					placeholder="password"
 					label="Password"
 					size="md"
 					required

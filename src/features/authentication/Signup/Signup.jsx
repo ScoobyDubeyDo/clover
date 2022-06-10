@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
 	Anchor,
@@ -8,45 +7,21 @@ import {
 	Text,
 	TextInput,
 } from "@mantine/core";
-import { useAuthServices, useThemeBreakpoint } from "../../../hooks";
+import {
+	useAuthServices,
+	useFormHandler,
+	useThemeBreakpoint,
+} from "../../../hooks";
 import { AuthCard } from "../../components/AuthCard/AuthCard";
 
 export const Signup = () => {
 	const matches = useThemeBreakpoint("xs");
 	const { handleSignUp } = useAuthServices();
-	const [inputFieldsValue, setInputFieldsValue] = useState({
-		fullName: "",
-		email: "",
-		password: "",
-		username: "",
-	});
+	const form = useFormHandler("signup");
 
-	const handleInput = (e, fieldName = "") => {
-		if (!!fieldName) {
-			setInputFieldsValue((prev) => {
-				return {
-					...prev,
-					[fieldName]: e.target.value,
-				};
-			});
-		} else {
-			setInputFieldsValue({
-				fullName: "",
-				email: "",
-				password: "",
-				username: "",
-			});
-		}
+	const handleSubmit = (values) => {
+		handleSignUp({ ...values });
 	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		handleSignUp({ ...inputFieldsValue });
-		// hack
-		handleInput(e);
-		// hack
-	};
-
 	return (
 		<AuthCard title="Join Clover today">
 			<Text
@@ -58,19 +33,21 @@ export const Signup = () => {
 				mx="auto">
 				Sign up to see photos and videos from your friends.
 			</Text>
-			<Box component="form" m={matches && "lg"} onSubmit={handleSubmit}>
+			<Box
+				noValidate={true}
+				component="form"
+				m={matches && "lg"}
+				onSubmit={form.onSubmit(handleSubmit)}>
 				<TextInput
-					value={inputFieldsValue.fullName}
-					onChange={(e) => handleInput(e, "fullName")}
 					placeholder="Your name"
 					label="Full name"
 					size="md"
 					type="text"
 					required
+					{...form.getInputProps("fullName")}
 				/>
 				<TextInput
-					value={inputFieldsValue.username}
-					onChange={(e) => handleInput(e, "username")}
+					{...form.getInputProps("username")}
 					placeholder="username"
 					label="Username"
 					size="md"
@@ -78,8 +55,7 @@ export const Signup = () => {
 					required
 				/>
 				<TextInput
-					value={inputFieldsValue.email}
-					onChange={(e) => handleInput(e, "email")}
+					{...form.getInputProps("email")}
 					placeholder="your email"
 					label="Email Id"
 					size="md"
@@ -87,8 +63,7 @@ export const Signup = () => {
 					required
 				/>
 				<PasswordInput
-					value={inputFieldsValue.password}
-					onChange={(e) => handleInput(e, "password")}
+					{...form.getInputProps("password")}
 					placeholder="password"
 					label="Password"
 					size="md"

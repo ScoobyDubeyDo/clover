@@ -71,6 +71,23 @@ const styles = {
 	},
 };
 
+const globalStyles = {
+	"*:not(textarea):not(input)": {
+		userSelect: "none",
+	},
+	"*,*::after ,*::before": {
+		scrollbarWidth: "thin",
+	},
+	"::-webkit-scrollbar": {
+		width: "0.5rem",
+	},
+
+	"::-webkit-scrollbar-thumb": {
+		background: "gray",
+		borderRadius: "25px",
+	},
+};
+
 export const ThemeProvider = ({ children }) => {
 	const [colorScheme, setColorScheme] = useLocalStorage({
 		key: "theme",
@@ -85,24 +102,7 @@ export const ThemeProvider = ({ children }) => {
 
 	return (
 		<>
-			<Global
-				styles={{
-					"*:not(textarea):not(input)": {
-						userSelect: "none",
-					},
-					"*,*::after ,*::before": {
-						scrollbarWidth: "thin",
-					},
-					"::-webkit-scrollbar": {
-						width: "0.5rem",
-					},
-
-					"::-webkit-scrollbar-thumb": {
-						background: "gray",
-						borderRadius: "25px",
-					},
-				}}
-			/>
+			<Global styles={{ ...globalStyles }} />
 			<ColorSchemeProvider
 				colorScheme={colorScheme}
 				toggleColorScheme={toggleColorScheme}>
